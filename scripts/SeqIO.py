@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 '''
  ParseFasta - class for reading a fasta-like formatted file.
  

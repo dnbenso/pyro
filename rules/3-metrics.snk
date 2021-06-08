@@ -21,7 +21,7 @@ rule estimate_read_length:
     shell:
         """
         mkdir -p 3-metrics/size
-        bash scripts/get-avg-size.sh {input.i1} {input.i2} > {output.lenest}
+        get-avg-size.sh {input.i1} {input.i2} > {output.lenest}
         """
         
 
@@ -47,7 +47,7 @@ rule estimate_genome_size_ill:
 
         Rscript ../../../../benchmarking/genomescope/genomescope.R ../../{output.histo} 21 $readlen gs-output 1000 > ../../{output.gs}
 
-        python ../../scripts/get-genome-size.py ../../{output.gs} > ../../{output.est}
+        get-genome-size.py ../../{output.gs} > ../../{output.est}
         """
         
 

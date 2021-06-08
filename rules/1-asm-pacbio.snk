@@ -51,7 +51,7 @@ rule falcon_pacbio:
     shell:
         """
         cd 1-assembly/PACBIO/falcon-pacbio
-        gunzip -k -c ../../../{input.pb} | sed -n -e '1~4s/^@/>/p;2~4p' | perl ../../../scripts/falcon_name_fasta.pl -o pacbio.fasta -t pacbio-name-table.txt -i -;
+        gunzip -k -c ../../../{input.pb} | sed -n -e '1~4s/^@/>/p;2~4p' | falcon_name_fasta.pl -o pacbio.fasta -t pacbio-name-table.txt -i -
         touch input.fofn
         realpath pacbio.fasta >> input.fofn
         cp ../../../{input.conf} falcon.cfg;
@@ -80,6 +80,7 @@ rule flye_pacbio:
     threads: 20
     shell:
         """
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
         flye --pacbio-raw {input.pb} --genome-size {config[genomesize]} --out-dir 1-assembly/PACBIO/flye-pacbio/ --threads {threads}
         mv 1-assembly/PACBIO/flye-pacbio/assembly.fasta {output.scf}
 
@@ -145,7 +146,7 @@ rule miniasm_pacbio:
 
         minimap2 -x ava-pb -t {threads} ../../../{input.pb} ../../../{input.pb} > ../../../{output.aln};
         miniasm -f ../../../{input.pb} ../../../{output.aln} > ../../../{output.gfa};
-        bash ../../../scripts/mini-awk.sh miniasm-pacbio-graph.gfa miniasm-pacbio-scaffold.fa;
+        mini-awk.sh miniasm-pacbio-graph.gfa miniasm-pacbio-scaffold.fa;
 
         cd ../../..
 

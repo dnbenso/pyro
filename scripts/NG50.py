@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 """
 This script calculates the NG values at various thresholds (1-100%) for the given input genome assembly.

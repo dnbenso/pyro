@@ -67,6 +67,7 @@ rule flye_nano:
     threads: 20
     shell:
         """
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages1
         flye --nano-raw {input.nano} --genome-size {config[genomesize]} --out-dir 1-assembly/NANO/flye-nano/ --threads {threads};
 
         mv 1-assembly/NANO/flye-nano/assembly.fasta {output.scf}
@@ -96,7 +97,7 @@ rule miniasm_nano:
 
         minimap2 -x ava-ont -t {threads} ../../../{input.nano} ../../../{input.nano} > ../../../{output.aln};
         miniasm -f ../../../{input.nano} ../../../{output.aln} > ../../../{output.gfa};
-        bash ../../../scripts/mini-awk.sh miniasm-nano-graph.gfa miniasm-nano-scaffold.fa;
+        mini-awk.sh miniasm-nano-graph.gfa miniasm-nano-scaffold.fa;
 
         cd ../../..
 
@@ -119,6 +120,7 @@ rule necat_nano:
     threads: 20
     shell:
         """
+        export PATH=/usr/local/stow/necat_20200803/bin:$PATH
         cd 1-assembly/NANO/necat-nano/
 
         necat.pl config necat-config.txt;
@@ -154,6 +156,7 @@ rule necat_nano_bridge:
     threads: 20
     shell:
         """
+        export PATH=/usr/local/stow/necat_20200803/bin:$PATH
         cd 1-assembly/NANO/necat-bridge-nano/
 
         necat.pl config necat-config.txt;
@@ -266,6 +269,7 @@ rule flye_corr_nano:
     threads: 20
     shell:
         """
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
         flye --pacbio-hifi {input.nano} --genome-size {config[genomesize]} --out-dir 1-assembly/NANO/flye-corr-nano/ --threads {threads};
 
         mv 1-assembly/NANO/flye-corr-nano/assembly.fasta {output.scf}

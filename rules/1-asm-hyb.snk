@@ -70,8 +70,8 @@ rule dbg2olc_pacbio_hyb:
         cat Contigs.txt pacbio.fasta > ctg_pb.fasta;
         mkdir -p consensus-dir
 
-        python ../../../scripts/split_reads_by_backbone.py -b backbone_raw.fasta -o consensus-dir -r ctg_pb.fasta -c DBG2OLC_Consensus_info.txt;
-        bash ../../../scripts/split_and_run_sparc.sh  backbone_raw.fasta DBG2OLC_Consensus_info.txt ctg_pb.fasta consensus-dir 2 > cns_log.txt;
+        split_reads_by_backbone.py -b backbone_raw.fasta -o consensus-dir -r ctg_pb.fasta -c DBG2OLC_Consensus_info.txt;
+        split_and_run_sparc.sh  backbone_raw.fasta DBG2OLC_Consensus_info.txt ctg_pb.fasta consensus-dir 2 > cns_log.txt;
 
         cp consensus-dir/final_assembly.fasta ../../../{output.scf};
         rm -rf consensus-dir && cd ../../..
@@ -129,6 +129,7 @@ rule masurca_hyb:
     threads: 20
     shell:
         """
+        export PATH=/usr/local/stow/miniconda3-4.6.14/bin:$PATH
         cd 1-assembly/HYB/masurca-hyb/
         cp ../../../{input.conf} config.txt;
 
@@ -174,6 +175,8 @@ rule masurca_flye_hyb:
     threads: 20
     shell:
         """
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        export PATH=/usr/local/stow/miniconda3-4.6.14/bin:$PATH
         cd 1-assembly/HYB/masurca-flye-hyb/
         cp ../../../{input.conf} config.txt
 

@@ -30,6 +30,7 @@ rule long_medaka_nano:
     threads: 20
     shell:
         """
+        export PATH=/usr/local/stow/miniconda3-4.6.14/bin:$PATH
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medaka-nano-wkdir;
         cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medaka-nano-wkdir/asm.fa;
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medaka-nano-wkdir;
@@ -201,6 +202,7 @@ rule long_medrac_nano:
     threads: 20
     shell:
         """
+        export PATH=/usr/local/stow/miniconda3-4.6.14/bin:$PATH
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-nano-wkdir;
         cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-nano-wkdir/asm.fa;
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-nano-wkdir;
@@ -271,7 +273,7 @@ rule long_arrow_pacbio:
         /usr/bin/time \
             -o ../../../../{output.pa1} \
             -v /bin/bash -c \
-                '../../../../scripts/pbalign-process.sh asm.fa arrow-1 {threads}';
+                'pbalign-process.sh asm.fa arrow-1 {threads}';
         ls arrow-1/arrow-1-align-*.bam > out1.fofn;
         /usr/bin/time \
             -o ../../../../{output.b1} \
@@ -291,7 +293,7 @@ rule long_arrow_pacbio:
         /usr/bin/time \
             -o ../../../../{output.pa2} \
             -v /bin/bash -c \
-                '../../../../scripts/pbalign-process.sh out1.fa arrow-2 {threads}';
+                'pbalign-process.sh out1.fa arrow-2 {threads}';
         ls arrow-2/arrow-2-align-*.bam > out2.fofn;
         /usr/bin/time \
             -o ../../../../{output.b2} \
@@ -311,7 +313,7 @@ rule long_arrow_pacbio:
         /usr/bin/time \
             -o ../../../../{output.pa3} \
             -v /bin/bash -c \
-                '../../../../scripts/pbalign-process.sh out2.fa arrow-3 {threads}';
+                'pbalign-process.sh out2.fa arrow-3 {threads}';
         ls arrow-3/arrow-3-align-*.bam > out3.fofn;
         /usr/bin/time \
             -o ../../../../{output.b3} \
@@ -331,7 +333,7 @@ rule long_arrow_pacbio:
         /usr/bin/time \
             -o ../../../../{output.pa4} \
             -v /bin/bash -c \
-                '../../../../scripts/pbalign-process.sh out3.fa arrow-4 {threads}';
+                'pbalign-process.sh out3.fa arrow-4 {threads}';
         ls arrow-4/arrow-4-align-*.bam > out4.fofn;
         /usr/bin/time \
             -o ../../../../{output.b4} \
@@ -497,6 +499,7 @@ rule long_medrac_comb:
     threads: 20
     shell:
         """
+        export PATH=/usr/local/stow/miniconda3-4.6.14/bin:$PATH
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-comb-wkdir;
         cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-comb-wkdir/asm.fa;
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-comb-wkdir;

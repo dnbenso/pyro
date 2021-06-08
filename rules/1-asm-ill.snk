@@ -58,6 +58,7 @@ rule masurca_ill:
     threads: 20
     shell:
         """
+        export PATH=/usr/local/stow/miniconda3-4.6.14/bin:$PATH
         cd 1-assembly/ILL/masurca-ill/
         cp ../../../{input.conf} config.txt
 
@@ -96,6 +97,7 @@ rule meraculous_ill:
     threads: 20
     shell:
         """
+        export PATH=/usr/local/stow/miniconda3-4.6.14/bin:$PATH
         cp {input.i1} {input.i2} 1-assembly/ILL/meraculous-ill/; 
         cd 1-assembly/ILL/meraculous-ill;
  
