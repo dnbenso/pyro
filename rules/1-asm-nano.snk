@@ -67,7 +67,7 @@ rule flye_nano:
     threads: 20
     shell:
         """
-        export PYTHONPATH=/usr/local/lib/python3.8/site-packages1
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
         flye --nano-raw {input.nano} --genome-size {config[genomesize]} --out-dir 1-assembly/NANO/flye-nano/ --threads {threads};
 
         mv 1-assembly/NANO/flye-nano/assembly.fasta {output.scf}
