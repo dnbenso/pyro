@@ -130,6 +130,7 @@ rule masurca_hyb:
     shell:
         """
         export PATH=/usr/local/stow/miniconda3-4.6.14/bin:$PATH
+        . /usr/local/stow/miniconda3-4.6.14/etc/profile.d/conda.sh
         cd 1-assembly/HYB/masurca-hyb/
         cp ../../../{input.conf} config.txt;
 
@@ -175,8 +176,9 @@ rule masurca_flye_hyb:
     threads: 20
     shell:
         """
-        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
         export PATH=/usr/local/stow/miniconda3-4.6.14/bin:$PATH
+        . /usr/local/stow/miniconda3-4.6.14/etc/profile.d/conda.sh
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
         cd 1-assembly/HYB/masurca-flye-hyb/
         cp ../../../{input.conf} config.txt
 

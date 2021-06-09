@@ -59,6 +59,7 @@ rule masurca_ill:
     shell:
         """
         export PATH=/usr/local/stow/miniconda3-4.6.14/bin:$PATH
+        . /usr/local/stow/miniconda3-4.6.14/etc/profile.d/conda.sh
         cd 1-assembly/ILL/masurca-ill/
         cp ../../../{input.conf} config.txt
 
@@ -98,6 +99,7 @@ rule meraculous_ill:
     shell:
         """
         export PATH=/usr/local/stow/miniconda3-4.6.14/bin:$PATH
+        . /usr/local/stow/miniconda3-4.6.14/etc/profile.d/conda.sh
         cp {input.i1} {input.i2} 1-assembly/ILL/meraculous-ill/; 
         cd 1-assembly/ILL/meraculous-ill;
  
