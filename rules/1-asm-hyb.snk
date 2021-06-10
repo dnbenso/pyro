@@ -222,7 +222,8 @@ rule spades_hyb:
     threads: 20
     shell:
         """
-        spades.py -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pb} -t {threads} -m {config[mem]} -o 1-assembly/HYB/spades-hyb/;
+        alias python='python3'
+        python3 /usr/local/bin/spades.py -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pb} -t {threads} -m {config[mem]} -o 1-assembly/HYB/spades-hyb/;
 
         mv 1-assembly/HYB/spades-hyb/scaffolds.fasta {output.scf}
         mv 1-assembly/HYB/spades-hyb/contigs.fasta {output.ctg}

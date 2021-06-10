@@ -233,7 +233,8 @@ rule spades_ill:
     threads: 20
     shell:
         """
-        spades.py -1 {input.i1} -2 {input.i2} -t {threads} -m {config[mem]} -o 1-assembly/ILL/spades-ill/;
+        alias python='python3'
+        python3 /usr/local/bin/spades.py -1 {input.i1} -2 {input.i2} -t {threads} -m {config[mem]} -o 1-assembly/ILL/spades-ill/;
 
         mv 1-assembly/ILL/spades-ill/scaffolds.fasta {output.scf} && mv 1-assembly/ILL/spades-ill/contigs.fasta {output.ctg};
 
