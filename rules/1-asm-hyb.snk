@@ -129,13 +129,13 @@ rule masurca_hyb:
     threads: 20
     shell:
         """
-        export PATH=/usr/local/stow/miniconda3-4.6.14/bin:$PATH
         . /usr/local/stow/miniconda3-4.6.14/etc/profile.d/conda.sh
         cd 1-assembly/HYB/masurca-hyb/
         cp ../../../{input.conf} config.txt;
 
-        unpigz -k -c ../../../{input.nano} > nano.fastq && unpigz -k -c ../../../{input.pb} > pacbio.fastq;
-        cat nano.fastq pacbio.fastq | pigz -c - > ../../../{output.long};
+        #unpigz -k -c ../../../{input.nano} > nano.fastq && unpigz -k -c ../../../{input.pb} > pacbio.fastq;
+        #cat nano.fastq pacbio.fastq | pigz -c - > ../../../{output.long};
+        zcat ../../../{input.nano} ../../../{input.pb} >../../../{output.long}
 
         sed -i 's|INPUTREAD1|../../../{input.i1}|' config.txt;
         sed -i 's|INPUTREAD2|../../../{input.i2}|' config.txt;
@@ -143,9 +143,11 @@ rule masurca_hyb:
         sed -i 's|USE_LINKING_MATES=1|USE_LINKING_MATES=0|' config.txt;
         sed -i 's|JELLYFISHSIZE|{params.jfsize}|' config.txt;
 
+        conda activate masurca
         masurca config.txt;
 
         bash assemble.sh;
+        conda deactivate
 
         cp CA*/final.genome.scf.fasta ../../../{output.scf};
         cd ../../../
@@ -176,14 +178,13 @@ rule masurca_flye_hyb:
     threads: 20
     shell:
         """
-        export PATH=/usr/local/stow/miniconda3-4.6.14/bin:$PATH
         . /usr/local/stow/miniconda3-4.6.14/etc/profile.d/conda.sh
-        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
         cd 1-assembly/HYB/masurca-flye-hyb/
         cp ../../../{input.conf} config.txt
 
-        unpigz -k -c ../../../{input.nano} > nano.fastq && unpigz -k -c ../../../{input.pb} > pacbio.fastq;
-        cat nano.fastq pacbio.fastq | pigz -c - > ../../../{output.long};
+        #unpigz -k -c ../../../{input.nano} > nano.fastq && unpigz -k -c ../../../{input.pb} > pacbio.fastq;
+        #cat nano.fastq pacbio.fastq | pigz -c - > ../../../{output.long};
+        zcat ../../../{input.nano} ../../../{input.pb} >../../../{output.long}
 
         sed -i 's|INPUTREAD1|../../../{input.i1}|' config.txt;
         sed -i 's|INPUTREAD2|../../../{input.i2}|' config.txt;
@@ -192,9 +193,11 @@ rule masurca_flye_hyb:
         sed -i 's|JELLYFISHSIZE|{params.jfsize}|' config.txt;
         sed -i 's|FLYE_ASSEMBLY=0|FLYE_ASSEMBLY=1|' config.txt;
 
+        conda activate masurca
         masurca config.txt;
 
         bash assemble.sh;
+        conda deactivate
 
         cp flye/assembly.fasta ../../../{output.scf};
         cd ../../../
