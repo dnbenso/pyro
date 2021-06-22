@@ -184,7 +184,7 @@ rule masurca_flye_hyb:
 
         #unpigz -k -c ../../../{input.nano} > nano.fastq && unpigz -k -c ../../../{input.pb} > pacbio.fastq;
         #cat nano.fastq pacbio.fastq | pigz -c - > ../../../{output.long};
-        zcat ../../../{input.nano} ../../../{input.pb} >../../../{output.long}
+        cat ../../../{input.nano} ../../../{input.pb} >../../../{output.long}
 
         sed -i 's|INPUTREAD1|../../../{input.i1}|' config.txt;
         sed -i 's|INPUTREAD2|../../../{input.i2}|' config.txt;
