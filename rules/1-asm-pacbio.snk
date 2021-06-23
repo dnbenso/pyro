@@ -62,7 +62,7 @@ rule falcon_pacbio:
         fc_run falcon.cfg;
         conda deactivate
 
-        cp 2-asm-falcon/p_ctg.fa ../../../{output.scf};
+        cp 2-asm-falcon/p_ctg.fasta ../../../{output.scf};
         cd ../../..
 
         assembly-stats {output.scf} > {output.stats};
