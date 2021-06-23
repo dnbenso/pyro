@@ -86,29 +86,29 @@ done
 if [ "$file" = "" ]; then
 	if [ "$norun" = "1" ]; then
 		if [ "$runcluster" = "1" ]; then
-			snakemake -j $threads -npr --quiet --cluster-config $clusterconfig --cluster "$clustercommand" --cluster-status scripts/slurm-status.py --jobs 100 --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $rule $unlock
+			snakemake -c $threads -npr --quiet --cluster-config $clusterconfig --cluster "$clustercommand" --cluster-status scripts/slurm-status.py --jobs 100 --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $rule $unlock
 		else
-			snakemake -j $threads -npr --quiet --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $rule $unlock
+			snakemake -c $threads -npr --quiet --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $rule $unlock
 		fi
 	else 
 		if [ "$runcluster" = "1" ]; then
-			snakemake -j $threads -p --cluster-config $clusterconfig --cluster "$clustercommand" --cluster-status scripts/slurm-status.py --jobs 100 --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $rule $unlock
+			snakemake -c $threads -p --cluster-config $clusterconfig --cluster "$clustercommand" --cluster-status scripts/slurm-status.py --jobs 100 --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $rule $unlock
 		else
-			snakemake -j $threads -p --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $rule $unlock
+			snakemake -c $threads -p --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $rule $unlock
 		fi
 	fi
 else
 	if [ "$norun" = "1" ]; then
                 if [ "$runcluster" = "1" ]; then
-                        snakemake -j $threads -npr --quiet --cluster-config $clusterconfig --cluster "$clustercommand" --cluster-status scripts/slurm-status.py --jobs 100 --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $file $unlock
+                        snakemake -c $threads -npr --quiet --cluster-config $clusterconfig --cluster "$clustercommand" --cluster-status scripts/slurm-status.py --jobs 100 --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $file $unlock
                 else
-                        snakemake -j $threads -npr --quiet --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $file $unlock
+                        snakemake -c $threads -npr --quiet --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $file $unlock
                 fi
         else
                 if [ "$runcluster" = "1" ]; then
-                        snakemake -j $threads -p --cluster-config $clusterconfig --cluster "$clustercommand" --cluster-status scripts/slurm-status.py --jobs 100 --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $file $unlock
+                        snakemake -c $threads -p --cluster-config $clusterconfig --cluster "$clustercommand" --cluster-status scripts/slurm-status.py --jobs 100 --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $file $unlock
                 else
-                        snakemake -j $threads -p --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $file $unlock
+                        snakemake -c $threads -p --use-singularity --singularity-args "--bind $WORKDIR:/mnt" $file $unlock
                 fi
         fi
 fi
