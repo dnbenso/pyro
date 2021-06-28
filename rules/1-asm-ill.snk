@@ -28,13 +28,13 @@ rule abyss_ill:
         """
         cd 1-assembly/ILL/abyss-ill 
 
-        abyss-pe name=abyss-ill k=96 in='../../../{input.i1} ../../../{input.i2}' j={threads} B=2G H=4 kc=2 v=-v;
+        abyss-pe name=abyss-ill k=96 in='../../../{input.i1} ../../../{input.i2}' j={threads} B=2G H=4 kc=2 v=-v
 
-        mv abyss-ill-contigs.fa ../../../{output.ctg} && mv abyss-ill-scaffolds.fa ../../../{output.scf};
+        mv abyss-ill-contigs.fa ../../../{output.ctg} && mv abyss-ill-scaffolds.fa ../../../{output.scf}
 
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule masurca_ill:
@@ -62,20 +62,20 @@ rule masurca_ill:
         cd 1-assembly/ILL/masurca-ill/
         cp ../../../{input.conf} config.txt
 
-        sed -i 's|INPUTREAD1|../../../{input.i1}|' config.txt;
-        sed -i 's|INPUTREAD2|../../../{input.i2}|' config.txt;
-        sed -i 's|JELLYFISHSIZE|{params.jfsize}|' config.txt;
+        sed -i 's|INPUTREAD1|../../../{input.i1}|' config.txt
+        sed -i 's|INPUTREAD2|../../../{input.i2}|' config.txt
+        sed -i 's|JELLYFISHSIZE|{params.jfsize}|' config.txt
 
         conda activate masurca
-        masurca config.txt;
+        masurca config.txt
 
-        bash assemble.sh;
+        bash assemble.sh
         conda deactivate
 
-        cp CA/final.genome.scf.fasta ../../../{output.scf};
+        cp CA/final.genome.scf.fasta ../../../{output.scf}
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule meraculous_ill:
@@ -100,25 +100,25 @@ rule meraculous_ill:
     shell:
         """
         . /usr/local/stow/miniconda3-4.6.14/etc/profile.d/conda.sh
-        cp {input.i1} {input.i2} 1-assembly/ILL/meraculous-ill/; 
-        cd 1-assembly/ILL/meraculous-ill;
+        cp {input.i1} {input.i2} 1-assembly/ILL/meraculous-ill/
+        cd 1-assembly/ILL/meraculous-ill
  
-        pigz -d -c ill_1.fastq.gz | sed '/^@SRR/ s/ .*/ /g' | sed '/^@SRR/ s/ /\/1/g' | pigz -c > input_1.fastq.gz;
-        pigz -d -c ill_2.fastq.gz | sed '/^@SRR/ s/ .*/ /g' | sed '/^@SRR/ s/ /\/2/g' | pigz -c > input_2.fastq.gz;
+        pigz -d -c ill_1.fastq.gz | sed '/^@SRR/ s/ .*/ /g' | sed '/^@SRR/ s/ /\/1/g' | pigz -c > input_1.fastq.gz
+        pigz -d -c ill_2.fastq.gz | sed '/^@SRR/ s/ .*/ /g' | sed '/^@SRR/ s/ /\/2/g' | pigz -c > input_2.fastq.gz
 
-        cp ../../../{input.conf} meraculous.config;
-        sed -i 's|INPUTREAD1|input_1.fastq.gz|' meraculous.config;
-        sed -i 's|INPUTREAD2|input_2.fastq.gz|' meraculous.config;
-        sed -i 's|YOURGENOMESIZE|{params.gb}|' meraculous.config;
-        sed -i 's|THREADS|{threads}|' meraculous.config;
+        cp ../../../{input.conf} meraculous.config
+        sed -i 's|INPUTREAD1|input_1.fastq.gz|' meraculous.config
+        sed -i 's|INPUTREAD2|input_2.fastq.gz|' meraculous.config
+        sed -i 's|YOURGENOMESIZE|{params.gb}|' meraculous.config
+        sed -i 's|THREADS|{threads}|' meraculous.config
 
         conda activate meraculous
-        run_meraculous.sh -c meraculous.config -dir run -cleanup_level=1;
+        run_meraculous.sh -c meraculous.config -dir run -cleanup_level=1
         conda deactivate
 
-        cp run/meraculous_final_results/final.scaffolds.fa ../../../{output.scf};
+        cp run/meraculous_final_results/final.scaffolds.fa ../../../{output.scf}
         cd ../../..
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule platanus_ill:
@@ -143,17 +143,17 @@ rule platanus_ill:
         """
         cd 1-assembly/ILL/platanus-ill/ 
 
-        platanus assemble -o platanus-ill -f ../../../{input.in1} ../../../{input.in2} -k 32 -t {threads} -m {config[mem]};
+        platanus assemble -o platanus-ill -f ../../../{input.in1} ../../../{input.in2} -k 32 -t {threads} -m {config[mem]}
 
-        platanus scaffold -o platanus-ill -c platanus-ill_contig.fa -b platanus-ill_contigBubble.fa -IP1 ../../../{input.in1} ../../../{input.in2} -t {threads};
+        platanus scaffold -o platanus-ill -c platanus-ill_contig.fa -b platanus-ill_contigBubble.fa -IP1 ../../../{input.in1} ../../../{input.in2} -t {threads}
 
-        platanus gap_close -o platanus-ill -c platanus-ill_scaffold.fa -f ../../../{input.in1} ../../../{input.in2} -t {threads};
+        platanus gap_close -o platanus-ill -c platanus-ill_scaffold.fa -f ../../../{input.in1} ../../../{input.in2} -t {threads}
 
-        cp platanus-ill_gapClosed.fa ../../../{output.scf};
-        cp platanus-ill_contig.fa ../../../{output.ctg};
+        cp platanus-ill_gapClosed.fa ../../../{output.scf}
+        cp platanus-ill_contig.fa ../../../{output.ctg}
         cd ../../../
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule ray_ill:
@@ -173,12 +173,12 @@ rule ray_ill:
     threads: 20
     shell:
         """
-        mpiexec -n {threads} Ray -p {input.in1} {input.in2} -o 1-assembly/ILL/ray-ill/ray_assembly;
+        mpiexec -n {threads} Ray -p {input.in1} {input.in2} -o 1-assembly/ILL/ray-ill/ray_assembly
 
-        cp 1-assembly/ILL/ray-ill/ray_assembly/Scaffolds.fasta {output.scf};
-        cp 1-assembly/ILL/ray-ill/ray_assembly/Contigs.fasta {output.ctg};
+        cp 1-assembly/ILL/ray-ill/ray_assembly/Scaffolds.fasta {output.scf}
+        cp 1-assembly/ILL/ray-ill/ray_assembly/Contigs.fasta {output.ctg}
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule soap_ill:
@@ -206,15 +206,15 @@ rule soap_ill:
         cd 1-assembly/ILL/soap-ill
 
         cp ../../../{input.conf} soap.config;
-        sed -i 's|INPUTREAD1|../../../{input.in1}|' soap.config;
-        sed -i 's|INPUTREAD2|../../../{input.in2}|' soap.config;
+        sed -i 's|INPUTREAD1|../../../{input.in1}|' soap.config
+        sed -i 's|INPUTREAD2|../../../{input.in2}|' soap.config
 
-        SOAPdenovo-63mer all -s soap.config -o soap-ill  -K 51 -p {threads} -N {config[genomesize]};
+        SOAPdenovo-63mer all -s soap.config -o soap-ill  -K 51 -p {threads} -N {config[genomesize]}
 
-        cp *.scafSeq ../../../{output.scf} && cp *.contig ../../../{output.ctg};
+        cp *.scafSeq ../../../{output.scf} && cp *.contig ../../../{output.ctg}
         cd ../../../
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule spades_ill:
@@ -235,11 +235,11 @@ rule spades_ill:
     threads: 20
     shell:
         """
-        spades.py -1 {input.i1} -2 {input.i2} -t {threads} -m {config[mem]} -o 1-assembly/ILL/spades-ill/;
+        spades.py -1 {input.i1} -2 {input.i2} -t {threads} -m {config[mem]} -o 1-assembly/ILL/spades-ill/
 
-        mv 1-assembly/ILL/spades-ill/scaffolds.fasta {output.scf} && mv 1-assembly/ILL/spades-ill/contigs.fasta {output.ctg};
+        mv 1-assembly/ILL/spades-ill/scaffolds.fasta {output.scf} && mv 1-assembly/ILL/spades-ill/contigs.fasta {output.ctg}
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule sparse_dbg2olc_ill:
@@ -265,16 +265,16 @@ rule sparse_dbg2olc_ill:
         """
         cd 1-assembly/ILL/sparse-dbg2olc-ill/
 
-        SparseAssembler g 10 k 51 LD 0 GS {config[genomesize]} f ../../../{input.in1} f ../../../{input.in2};
+        SparseAssembler g 10 k 51 LD 0 GS {config[genomesize]} f ../../../{input.in1} f ../../../{input.in2}
 
-        mv Contigs.txt ../../../{output.ctg};
+        mv Contigs.txt ../../../{output.ctg}
 
-        DBG2OLC LD1 0 Contigs ../../../{output.ctg} k 31 KmerCovTh 0 MinOverlap 50 PathCovTh 1 f ../../../{input.in1} f ../../../{input.in2};
+        DBG2OLC LD1 0 Contigs ../../../{output.ctg} k 31 KmerCovTh 0 MinOverlap 50 PathCovTh 1 f ../../../{input.in1} f ../../../{input.in2}
 
-        mv DBG2OLC_Consensus.fasta ../../../{output.scf};
+        mv DBG2OLC_Consensus.fasta ../../../{output.scf}
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 		
 rule w2rap_ill:
@@ -295,9 +295,9 @@ rule w2rap_ill:
     threads: 20
     shell:
         """
-        w2rap-contigger -t {threads} -m {config[mem]} -o 1-assembly/ILL/w2rap-ill/ -r {input.in1},{input.in2} -p w2rap-ill;
+        w2rap-contigger -t {threads} -m {config[mem]} -o 1-assembly/ILL/w2rap-ill/ -r {input.in1},{input.in2} -p w2rap-ill
 
-        cp 1-assembly/ILL/w2rap-ill/a.lines.fasta {output.scf};
+        cp 1-assembly/ILL/w2rap-ill/a.lines.fasta {output.scf}
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """

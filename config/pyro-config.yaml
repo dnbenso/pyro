@@ -23,6 +23,7 @@ pb-cov:             30
 
 # estimated genome size of organism. If not known, put 0 and pyro will calculate it, will just add to run time.
 genomesize:         100000000
+falconcoverage:     35
 
 # path to gene set for use with BUSCO, relative to main directory (or absolute), if using.
 odb-set:            'nematoda_odb9'

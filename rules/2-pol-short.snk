@@ -35,39 +35,39 @@ rule short_hypo:
         #module load minimap2/2.16 samtools/1.9.0 gcc/9.2.0 kmc/3.0.0
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-hypo-wkdir
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-hypo-wkdir
-        cp ../../../../{input.asm} asm.fa;
+        cp ../../../../{input.asm} asm.fa
 
-        echo -e '../../../../{input.in1}\n../../../../{input.in2}' > input.fofn;
+        echo -e '../../../../{input.in1}\n../../../../{input.in2}' > input.fofn
 
         /usr/bin/time \
             -o ../../../../{output.m1} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} asm.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out1.bam -@ {threads} -; \
-                samtools index out1.bam;'; 
+                samtools index out1.bam' 
         /usr/bin/time \
             -o ../../../../{output.h1} \
-            -v hypo -d asm.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out1.bam -p 80 -t {threads} -o out1.fa;
-        cp out1.fa ../../../../{output.out1};
+            -v hypo -d asm.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out1.bam -p 80 -t {threads} -o out1.fa
+        cp out1.fa ../../../../{output.out1}
         
         /usr/bin/time \
             -o ../../../../{output.m2} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} out1.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out2.bam -@ {threads} -; \
-                samtools index out2.bam;';
+                samtools index out2.bam'
         /usr/bin/time \
             -o ../../../../{output.h2} \
-            -v hypo -d out1.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out2.bam -p 80 -t {threads} -o out2.fa;
-        cp out2.fa ../../../../{output.out2};
+            -v hypo -d out1.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out2.bam -p 80 -t {threads} -o out2.fa
+        cp out2.fa ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.m3} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} out2.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out3.bam -@ {threads} -; \
-                samtools index out3.bam;'; 
+                samtools index out3.bam' 
         /usr/bin/time \
             -o ../../../../{output.h3} \
-            -v hypo -d out2.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out3.bam -p 80 -t {threads} -o out3.fa;
-        cp out3.fa ../../../../{output.out3};
+            -v hypo -d out2.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out3.bam -p 80 -t {threads} -o out3.fa
+        cp out3.fa ../../../../{output.out3}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.longpol}-short-hypo-wkdir && cd ../../..
         """
@@ -98,25 +98,25 @@ rule short_nextpolish:
         cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-nextpolish-wkdir/asm.fa
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-nextpolish-wkdir
 
-        echo -e "../../../../{input.in1}\n../../../../{input.in2}" > sgs.fofn;
+        echo -e "../../../../{input.in1}\n../../../../{input.in2}" > sgs.fofn
 
-        echo -e "job_type = local\njob_prefix = run-1\ntask = 12\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = ./asm.fa\ngenome_size = auto\nworkdir = ./01_rundir\npolish_options = -p {{multithread_jobs}}\nsgs_fofn = sgs.fofn\nsgs_options = -bwa" > run-1.cfg;
+        echo -e "job_type = local\njob_prefix = run-1\ntask = 12\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = ./asm.fa\ngenome_size = auto\nworkdir = ./01_rundir\npolish_options = -p {{multithread_jobs}}\nsgs_fofn = sgs.fofn\nsgs_options = -bwa" > run-1.cfg
         /usr/bin/time \
             -o ../../../../{output.n1} \
-            -v nextPolish run-1.cfg;
-        cp 01_rundir/genome.nextpolish.fasta ../../../../{output.out1};
+            -v nextPolish run-1.cfg
+        cp 01_rundir/genome.nextpolish.fasta ../../../../{output.out1}
 
-        echo -e "job_type = local\njob_prefix = run-2\ntask = 12\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 01_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./02_rundir\npolish_options = -p {{multithread_jobs}}\nsgs_fofn = sgs.fofn\nsgs_options = -bwa" > run-2.cfg;
+        echo -e "job_type = local\njob_prefix = run-2\ntask = 12\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 01_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./02_rundir\npolish_options = -p {{multithread_jobs}}\nsgs_fofn = sgs.fofn\nsgs_options = -bwa" > run-2.cfg
         /usr/bin/time \
             -o ../../../../{output.n2} \
-            -v nextPolish run-2.cfg;
-        cp 02_rundir/genome.nextpolish.fasta ../../../../{output.out2};
+            -v nextPolish run-2.cfg
+        cp 02_rundir/genome.nextpolish.fasta ../../../../{output.out2}
 
-        echo -e "job_type = local\njob_prefix = run-3\ntask = 12\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 02_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./03_rundir\npolish_options = -p {{multithread_jobs}}\nsgs_fofn = sgs.fofn\nsgs_options = -bwa" > run-3.cfg;
+        echo -e "job_type = local\njob_prefix = run-3\ntask = 12\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 02_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./03_rundir\npolish_options = -p {{multithread_jobs}}\nsgs_fofn = sgs.fofn\nsgs_options = -bwa" > run-3.cfg
         /usr/bin/time \
             -o ../../../../{output.n3} \
-            -v nextPolish run-3.cfg;
-        cp 03_rundir/genome.nextpolish.fasta ../../../../{output.out3};
+            -v nextPolish run-3.cfg
+        cp 03_rundir/genome.nextpolish.fasta ../../../../{output.out3}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.longpol}-short-nextpolish-wkdir && cd ../../..
         """
@@ -147,21 +147,21 @@ rule short_ntedit:
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-ntedit-wkdir
         cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-ntedit-wkdir/asm.fa
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-ntedit-wkdir
-        echo '../../../../{input.in1}\n../../../../{input.in2}' > inputs.fofn;
+        echo '../../../../{input.in1}\n../../../../{input.in2}' > inputs.fofn
 
         /usr/bin/time \
             -o ../../../../{output.h} \
-            -v nthits -b 36 -k 50 -t {threads} -p ntedit-bloom --outbloom --solid @inputs.fofn;
+            -v nthits -b 36 -k 50 -t {threads} -p ntedit-bloom --outbloom --solid @inputs.fofn
 
         /usr/bin/time \
             -o ../../../../{output.e1} \
-            -v ntedit -k 50 -f asm.fa -r ntedit-bloom*.bf -b ntedit-1 -t {threads};
-        cp ntedit-1_edited.fa ../../../../{output.out1};
+            -v ntedit -k 50 -f asm.fa -r ntedit-bloom*.bf -b ntedit-1 -t {threads}
+        cp ntedit-1_edited.fa ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.e2} \
-            -v ntedit -k 50 -f ntedit-1_edited.fa -r ntedit-bloom*.bf -b ntedit-2 -t {threads};
-        cp ntedit-2_edited.fa ../../../../{output.out2};
+            -v ntedit -k 50 -f ntedit-1_edited.fa -r ntedit-bloom*.bf -b ntedit-2 -t {threads}
+        cp ntedit-2_edited.fa ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.e3} \
@@ -207,33 +207,33 @@ rule short_pilon:
             -v /bin/bash -c \
                 'bwa index asm.fa; \
                 bwa mem -t {threads} asm.fa ../../../../{input.in1} ../../../../{input.in2} | samtools sort -o out1.bam -@ {threads} -; \
-                samtools index out1.bam';
+                samtools index out1.bam'
         /usr/bin/time \
             -o ../../../../{output.p1} \
-            -v java -Xmx{config[mem]}G -jar pilon.jar --genome asm.fa --frags out1.bam --output short-pilon-1 --fix all --threads {threads};
-        cp short-pilon-1.fasta ../../../../{output.out1};
+            -v java -Xmx{config[mem]}G -jar pilon.jar --genome asm.fa --frags out1.bam --output short-pilon-1 --fix all --threads {threads}
+        cp short-pilon-1.fasta ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.b2} \
             -v /bin/bash -c \
                 'bwa index short-pilon-1.fasta; \
                 bwa mem -t {threads} short-pilon-1.fasta ../../../../{input.in1} ../../../../{input.in2} | samtools sort -o out2.bam -@ {threads} -; \
-                samtools index out2.bam';
+                samtools index out2.bam'
         /usr/bin/time \
             -o ../../../../{output.p2} \
-            -v java -Xmx{config[mem]}G -jar pilon.jar --genome short-pilon-1.fasta --frags out2.bam --output short-pilon-2 --fix all --threads {threads};
-        cp short-pilon-2.fasta ../../../../{output.out2};
+            -v java -Xmx{config[mem]}G -jar pilon.jar --genome short-pilon-1.fasta --frags out2.bam --output short-pilon-2 --fix all --threads {threads}
+        cp short-pilon-2.fasta ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.b3} \
             -v /bin/bash -c \
                 'bwa index short-pilon-2.fasta; \
                 bwa mem -t {threads} short-pilon-2.fasta ../../../../{input.in1} ../../../../{input.in2} | samtools sort -o out3.bam -@ {threads} -; \
-                samtools index out3.bam';
+                samtools index out3.bam'
         /usr/bin/time \
             -o ../../../../{output.p3} \
-            -v java -Xmx{config[mem]}G -jar pilon.jar --genome short-pilon-2.fasta --frags out3.bam --output short-pilon-3 --fix all --threads {threads};
-        cp short-pilon-3.fasta ../../../../{output.out3};
+            -v java -Xmx{config[mem]}G -jar pilon.jar --genome short-pilon-2.fasta --frags out3.bam --output short-pilon-3 --fix all --threads {threads}
+        cp short-pilon-3.fasta ../../../../{output.out3}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.longpol}-short-pilon-wkdir && cd ../../..
         """
@@ -263,23 +263,23 @@ rule short_polca:
         """
         #module load bwa/0.7.15
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-polca-wkdir
-        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-polca-wkdir/asm.fa;
+        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-polca-wkdir/asm.fa
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-polca-wkdir
 
         /usr/bin/time \
             -o ../../../../{output.p1} \
-            -v bash polca.sh -a asm.fa -r '../../../../{input.in1} ../../../../{input.in2}' -t {threads};
-        cp asm.fa.PolcaCorrected.fa ../../../../{output.out1}; 
+            -v bash polca.sh -a asm.fa -r '../../../../{input.in1} ../../../../{input.in2}' -t {threads}
+        cp asm.fa.PolcaCorrected.fa ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.p2} \
-            -v bash polca.sh -a asm.fa.PolcaCorrected.fa -r '../../../../{input.in1} ../../../../{input.in2}' -t {threads};
-        cp asm.fa.PolcaCorrected.fa.PolcaCorrected.fa ../../../../{output.out2};
+            -v bash polca.sh -a asm.fa.PolcaCorrected.fa -r '../../../../{input.in1} ../../../../{input.in2}' -t {threads}
+        cp asm.fa.PolcaCorrected.fa.PolcaCorrected.fa ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.p3} \
-            -v bash polca.sh -a asm.fa.PolcaCorrected.fa.PolcaCorrected.fa -r '../../../../{input.in1} ../../../../{input.in2}' -t {threads};
-        cp asm.fa.PolcaCorrected.fa.PolcaCorrected.fa.PolcaCorrected.fa ../../../../{output.out3};
+            -v bash polca.sh -a asm.fa.PolcaCorrected.fa.PolcaCorrected.fa -r '../../../../{input.in1} ../../../../{input.in2}' -t {threads}
+        cp asm.fa.PolcaCorrected.fa.PolcaCorrected.fa.PolcaCorrected.fa ../../../../{output.out3}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.longpol}-short-polca-wkdir && cd ../../..
         """
@@ -311,32 +311,32 @@ rule short_racon:
         """
         #module load minimap2/2.16
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-racon-wkdir
-        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-racon-wkdir/asm.fa;
+        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-racon-wkdir/asm.fa
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-racon-wkdir
 
         /usr/bin/time \
             -o ../../../../{output.m1} \
-            -v minimap2 -x sr asm.fa ../../../../{input.inc} > out1.paf;
+            -v minimap2 -x sr asm.fa ../../../../{input.inc} > out1.paf
         /usr/bin/time \
             -o ../../../../{output.r1} \
-            -v racon -u -t {threads} ../../../../{input.inc} out1.paf asm.fa > out1.fa;
-        cp out1.fa ../../../../{output.out1};
+            -v racon -u -t {threads} ../../../../{input.inc} out1.paf asm.fa > out1.fa
+        cp out1.fa ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.m2} \
-            -v minimap2 -x sr out1.fa ../../../../{input.inc} > out2.paf;
+            -v minimap2 -x sr out1.fa ../../../../{input.inc} > out2.paf
         /usr/bin/time \
             -o ../../../../{output.r2} \
-            -v racon -u -t {threads} ../../../../{input.inc} out2.paf out1.fa > out2.fa;
-        cp out2.fa ../../../../{output.out2};
+            -v racon -u -t {threads} ../../../../{input.inc} out2.paf out1.fa > out2.fa
+        cp out2.fa ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.m3} \
-            -v minimap2 -x sr out2.fa ../../../../{input.inc} > out3.paf;
+            -v minimap2 -x sr out2.fa ../../../../{input.inc} > out3.paf
         /usr/bin/time \
             -o ../../../../{output.r3} \
-            -v racon -u -t {threads} ../../../../{input.inc} out3.paf out2.fa > out3.fa;
-        cp out3.fa ../../../../{output.out3};
+            -v racon -u -t {threads} ../../../../{input.inc} out3.paf out2.fa > out3.fa
+        cp out3.fa ../../../../{output.out3}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.longpol}-short-racon-wkdir && cd ../../..
         """

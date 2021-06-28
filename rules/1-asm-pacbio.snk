@@ -22,11 +22,11 @@ rule canu_pacbio:
     threads: 20
     shell:
         """
-        canu -p canu-pacbio -d 1-assembly/PACBIO/canu-pacbio/ genomeSize={config[genomesize]} -pacbio-raw {input.pb} -useGrid=false;
+        canu -p canu-pacbio -d 1-assembly/PACBIO/canu-pacbio/ genomeSize={config[genomesize]} -pacbio-raw {input.pb} -useGrid=false
 
         cp 1-assembly/PACBIO/canu-pacbio/canu-pacbio.contigs.fasta {output.scf}
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule falcon_pacbio:
@@ -54,18 +54,19 @@ rule falcon_pacbio:
         gunzip -k -c ../../../{input.pb} | sed -n -e '1~4s/^@/>/p;2~4p' | falcon_name_fasta.pl -o pacbio.fasta -t pacbio-name-table.txt -i -
         touch input.fofn
         realpath pacbio.fasta >> input.fofn
-        cp ../../../{input.conf} falcon.cfg;
+        cp ../../../{input.conf} falcon.cfg
         sed -i 's|YOURGENOMESIZE|{config[genomesize]}|' falcon.cfg
+        sed -i 's|YOURCOVERAGE|{config[falconcoverage]}|' falcon.cfg
 
         . /usr/local/stow/miniconda3-4.6.14/etc/profile.d/conda.sh
         conda activate pb_assembly
-        fc_run falcon.cfg;
+        fc_run falcon.cfg
         conda deactivate
 
-        cp 2-asm-falcon/p_ctg.fasta ../../../{output.scf};
+        cp 2-asm-falcon/p_ctg.fasta ../../../{output.scf}
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule flye_pacbio:
@@ -87,7 +88,7 @@ rule flye_pacbio:
         flye --pacbio-raw {input.pb} --genome-size {config[genomesize]} --out-dir 1-assembly/PACBIO/flye-pacbio/ --threads {threads}
         mv 1-assembly/PACBIO/flye-pacbio/assembly.fasta {output.scf}
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule mecat2_pacbio:
@@ -107,24 +108,24 @@ rule mecat2_pacbio:
         """
         cd 1-assembly/PACBIO/mecat2-pacbio/
 
-        mecat.pl config mecat2-config.txt;
+        mecat.pl config mecat2-config.txt
 
-        readpath=$( realpath ../../../{input.pacbio} );
+        readpath=$( realpath ../../../{input.pacbio} )
 
-        sed -i 's|PROJECT=|PROJECT=mecat2|' mecat2-config.txt;
-        sed -i "s|RAWREADS=|RAWREADS=$readpath|" mecat2-config.txt;
-        sed -i 's|GENOME_SIZE=|GENOME_SIZE={config[genomesize]}|' mecat2-config.txt;
-        sed -i 's|THREADS=4|THREADS={threads}|' mecat2-config.txt;
-        sed -i 's|CLEANUP=0|CLEANUP=1|' mecat2-config.txt;
+        sed -i 's|PROJECT=|PROJECT=mecat2|' mecat2-config.txt
+        sed -i "s|RAWREADS=|RAWREADS=$readpath|" mecat2-config.txt
+        sed -i 's|GENOME_SIZE=|GENOME_SIZE={config[genomesize]}|' mecat2-config.txt
+        sed -i 's|THREADS=4|THREADS={threads}|' mecat2-config.txt
+        sed -i 's|CLEANUP=0|CLEANUP=1|' mecat2-config.txt
 
-        mecat.pl correct mecat2-config.txt;
-        mecat.pl trim mecat2-config.txt;
-        mecat.pl assemble mecat2-config.txt;
+        mecat.pl correct mecat2-config.txt
+        mecat.pl trim mecat2-config.txt
+        mecat.pl assemble mecat2-config.txt
 
-		cp mecat2/4-fsa/contigs.fasta ../../../{output.scf};
+		cp mecat2/4-fsa/contigs.fasta ../../../{output.scf}
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule miniasm_pacbio:
@@ -147,13 +148,13 @@ rule miniasm_pacbio:
         """
         cd 1-assembly/PACBIO/miniasm-pacbio
 
-        minimap2 -x ava-pb -t {threads} ../../../{input.pb} ../../../{input.pb} > ../../../{output.aln};
-        miniasm -f ../../../{input.pb} ../../../{output.aln} > ../../../{output.gfa};
-        mini-awk.sh miniasm-pacbio-graph.gfa miniasm-pacbio-scaffold.fa;
+        minimap2 -x ava-pb -t {threads} ../../../{input.pb} ../../../{input.pb} > ../../../{output.aln}
+        miniasm -f ../../../{input.pb} ../../../{output.aln} > ../../../{output.gfa}
+        mini-awk.sh miniasm-pacbio-graph.gfa miniasm-pacbio-scaffold.fa
 
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule raven_pacbio:
@@ -173,11 +174,11 @@ rule raven_pacbio:
         """
         cd 1-assembly/PACBIO/raven-pacbio/
 
-        raven -p 0 -t {threads} ../../../{input.pb} > ../../../{output.scf};
+        raven -p 0 -t {threads} ../../../{input.pb} > ../../../{output.scf}
 
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule wtdbg2_pacbio:
@@ -199,12 +200,12 @@ rule wtdbg2_pacbio:
         """
         cd 1-assembly/PACBIO/wtdbg2-pacbio/
 
-        wtdbg2 -x rs -g {config[genomesize]} -t {threads} -i ../../../{input.pb} -fo wtdbg2-pacbio;
-        wtpoa-cns -t {threads} -i wtdbg2-pacbio.ctg.lay.gz -fo wtdbg2-pacbio-scaffold.fa;
+        wtdbg2 -x rs -g {config[genomesize]} -t {threads} -i ../../../{input.pb} -fo wtdbg2-pacbio
+        wtpoa-cns -t {threads} -i wtdbg2-pacbio.ctg.lay.gz -fo wtdbg2-pacbio-scaffold.fa
 
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 

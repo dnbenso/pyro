@@ -42,7 +42,7 @@ rule estimate_genome_size_ill:
 
         readlen=$( cat {../../input.lenest} )
 
-        jellyfish count -C -m 21 -s 10G -t {threads} -F 2 -o ../../{output.jf} <(cat ../../{input.i1}) <(cat ../../{input.i2});
+        jellyfish count -C -m 21 -s 10G -t {threads} -F 2 -o ../../{output.jf} <(cat ../../{input.i1}) <(cat ../../{input.i2})
         jellyfish histo -t {threads} ../../{output.jf} > ../../{output.histo}
 
         Rscript ../../../../benchmarking/genomescope/genomescope.R ../../{output.histo} 21 $readlen gs-output 1000 > ../../{output.gs}
@@ -82,7 +82,7 @@ rule dnaqet_evaluate_asm:
         java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
             -f {input.asm} -r {input.ref} \
             -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-scaffold/ \
-            -t {threads} -k {input.model};
+            -t {threads} -k {input.model}
         """
 
 rule dnaqet_evaluate_pol_i:
@@ -106,17 +106,17 @@ rule dnaqet_evaluate_pol_i:
         java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
             -f {input.asm1} -r {input.ref} \
             -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.sround}-1/ \
-            -t {threads} -k {input.model};
+            -t {threads} -k {input.model}
 
         java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
             -f {input.asm2} -r {input.ref} \
             -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.sround}-2/ \
-            -t {threads} -k {input.model};
+            -t {threads} -k {input.model}
 
         java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
             -f {input.asm3} -r {input.ref} \
             -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.sround}-3/ \
-            -t {threads} -k {input.model};
+            -t {threads} -k {input.model}
         """
 
 rule dnaqet_evaluate_pol_j:
@@ -142,22 +142,22 @@ rule dnaqet_evaluate_pol_j:
         java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
             -f {input.asm1} -r {input.ref} \
             -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.lround}-1/ \
-            -t {threads} -k {input.model};
+            -t {threads} -k {input.model}
 
         java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
             -f {input.asm2} -r {input.ref} \
             -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.lround}-2/ \
-            -t {threads} -k {input.model};
+            -t {threads} -k {input.model}
 
         java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
             -f {input.asm3} -r {input.ref} \
             -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.lround}-3/ \
-            -t {threads} -k {input.model};
+            -t {threads} -k {input.model}
 
         java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
             -f {input.asm4} -r {input.ref} \
             -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.lround}-4/ \
-            -t {threads} -k {input.model};
+            -t {threads} -k {input.model}
         """
 
 #########
@@ -194,7 +194,7 @@ rule quast_ill_asm:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} {input.asms};
+            -1 {input.i1} -2 {input.i2} {input.asms}
         """
 
 # Nanopore
@@ -224,7 +224,7 @@ rule quast_nano_asm:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            --nanopore {input.nano} {input.asms};
+            --nanopore {input.nano} {input.asms}
         """
 
 # PacBio
@@ -254,7 +254,7 @@ rule quast_pacbio_asm:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            --pacbio {input.pacbio} {input.asms};
+            --pacbio {input.pacbio} {input.asms}
         """
 
 # Hybrid
@@ -286,7 +286,7 @@ rule quast_nano_hyb_asm:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.asms};
+            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.asms}
         """
 
 rule quast_pacbio_hyb_asm:
@@ -316,7 +316,7 @@ rule quast_pacbio_hyb_asm:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.asms};
+            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.asms}
         """
 
 rule quast_hyb_hyb_asm:
@@ -347,7 +347,7 @@ rule quast_hyb_hyb_asm:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pacbio} {input.asms};
+            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pacbio} {input.asms}
         """
 
 ### Polishing Comparisons
@@ -380,7 +380,7 @@ rule quast_ill_short:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} {input.asms};
+            -1 {input.i1} -2 {input.i2} {input.asms}
         """
 
 # Nanopore
@@ -412,7 +412,7 @@ rule quast_nano_short:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.asms};
+            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.asms}
         """
 
 rule quast_nano_long:
@@ -440,7 +440,7 @@ rule quast_nano_long:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            --nanopore {input.nano} {input.asms};
+            --nanopore {input.nano} {input.asms}
         """
 
 rule quast_nano_long_short:
@@ -470,7 +470,7 @@ rule quast_nano_long_short:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.asms};
+            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.asms}
         """
 
 rule quast_nano_hyb:
@@ -500,7 +500,7 @@ rule quast_nano_hyb:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.asms};
+            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.asms}
         """
 
 # PacBio
@@ -532,7 +532,7 @@ rule quast_pacbio_short:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.asms};
+            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.asms}
         """
 
 rule quast_pacbio_long:
@@ -560,7 +560,7 @@ rule quast_pacbio_long:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            --pacbio {input.pacbio} {input.asms};
+            --pacbio {input.pacbio} {input.asms}
         """
 
 rule quast_pacbio_long_short:
@@ -590,7 +590,7 @@ rule quast_pacbio_long_short:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.asms};
+            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.asms}
         """
 
 rule quast_pacbio_hyb:
@@ -620,7 +620,7 @@ rule quast_pacbio_hyb:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.asms};
+            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.asms}
         """
 
 # Hybrid
@@ -654,7 +654,7 @@ rule quast_nano_hyb_short:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.nhasms};
+            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.nhasms}
         """
 
 rule quast_nano_hyb_long:
@@ -684,7 +684,7 @@ rule quast_nano_hyb_long:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.nhasms};
+            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.nhasms}
         """
 
 rule quast_nano_hyb_long_short:
@@ -714,7 +714,7 @@ rule quast_nano_hyb_long_short:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.nhasms};
+            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.nhasms}
         """
 
 rule quast_nano_hyb_hyb:
@@ -744,7 +744,7 @@ rule quast_nano_hyb_hyb:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.nhasms};
+            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} {input.nhasms}
         """
 
 
@@ -777,7 +777,7 @@ rule quast_pacbio_hyb_short:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.phasms};
+            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.phasms}
         """
 
 rule quast_pacbio_hyb_long:
@@ -807,7 +807,7 @@ rule quast_pacbio_hyb_long:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.phasms};
+            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.phasms}
         """
 
 rule quast_pacbio_hyb_long_short:
@@ -837,7 +837,7 @@ rule quast_pacbio_hyb_long_short:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.phasms};
+            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.phasms}
         """
 
 rule quast_pacbio_hyb_hyb:
@@ -867,7 +867,7 @@ rule quast_pacbio_hyb_hyb:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.phasms};
+            -1 {input.i1} -2 {input.i2} --pacbio {input.pacbio} {input.phasms}
         """
 
 # ILL-NANO-PACBIO
@@ -900,7 +900,7 @@ rule quast_hyb_short:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pacbio} {input.hhasms};
+            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pacbio} {input.hhasms}
         """
 
 rule quast_hyb_long:
@@ -931,7 +931,7 @@ rule quast_hyb_long:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pacbio} {input.hhasms};
+            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pacbio} {input.hhasms}
         """
 
 rule quast_hyb_long_short:
@@ -962,7 +962,7 @@ rule quast_hyb_long_short:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pacbio} {input.hhasms};
+            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pacbio} {input.hhasms}
         """
 
 rule quast_hyb_hyb:
@@ -993,7 +993,7 @@ rule quast_hyb_hyb:
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
             --space-efficient --eukaryote --fast \
             -l "{params.propname}" \
-            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pacbio} {input.hhasms};
+            -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pacbio} {input.hhasms}
         """
 
 ################
@@ -1049,21 +1049,21 @@ rule repeatmasker_pol_i:
             -species {config[rm-species]} \
             -parallel {threads} -q \
             -dir ./ ../../../../../../{input.asm1};
-        cp {wildcards.asm}-{wildcards.sround}-1.fa.tbl ../../../../../../{output.table1};
+        cp {wildcards.asm}-{wildcards.sround}-1.fa.tbl ../../../../../../{output.table1}
 
         cd ../dir-02/
         RepeatMasker \
             -species {config[rm-species]} \
             -parallel {threads} -q \
             -dir ./ ../../../../../../{input.asm2};
-        cp {wildcards.asm}-{wildcards.sround}-2.fa.tbl ../../../../../../{output.table2};
+        cp {wildcards.asm}-{wildcards.sround}-2.fa.tbl ../../../../../../{output.table2}
 
         cd ../dir-03/
         RepeatMasker \
             -species {config[rm-species]} \
             -parallel {threads} -q \
             -dir ./ ../../../../../../{input.asm3};
-        cp {wildcards.asm}-{wildcards.sround}-3.fa.tbl ../../../../../../{output.table3};
+        cp {wildcards.asm}-{wildcards.sround}-3.fa.tbl ../../../../../../{output.table3}
 
         cd ../../../../../..
         rm -rf 3-metrics/repeatmasker/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.sround}-wkdir
@@ -1094,29 +1094,29 @@ rule repeatmasker_pol_j:
         RepeatMasker \
             -species {config[rm-species]} \
             -parallel {threads} -q \
-            -dir ./ ../../../../../../{input.asm1};
-        cp {wildcards.asm}-{wildcards.lround}-1.fa.tbl ../../../../../../{output.table1};
+            -dir ./ ../../../../../../{input.asm1}
+        cp {wildcards.asm}-{wildcards.lround}-1.fa.tbl ../../../../../../{output.table1}
 
         cd ../dir-02/
         RepeatMasker \
             -species {config[rm-species]} \
             -parallel {threads} -q \
             -dir ./ ../../../../../../{input.asm2};
-        cp {wildcards.asm}-{wildcards.lround}-2.fa.tbl ../../../../../../{output.table2};
+        cp {wildcards.asm}-{wildcards.lround}-2.fa.tbl ../../../../../../{output.table2}
 
         cd ../dir-03/
         RepeatMasker \
             -species {config[rm-species]} \
             -parallel {threads} -q \
-            -dir ./ ../../../../../../{input.asm3};
-        cp {wildcards.asm}-{wildcards.lround}-3.fa.tbl ../../../../../../{output.table3};
+            -dir ./ ../../../../../../{input.asm3}
+        cp {wildcards.asm}-{wildcards.lround}-3.fa.tbl ../../../../../../{output.table3}
 
         cd ../dir-04/
         RepeatMasker \
             -species {config[rm-species]} \
             -parallel {threads} -q \
-            -dir ./ ../../../../../../{input.asm4};
-        cp {wildcards.asm}-{wildcards.lround}-4.fa.tbl ../../../../../../{output.table4};
+            -dir ./ ../../../../../../{input.asm4}
+        cp {wildcards.asm}-{wildcards.lround}-4.fa.tbl ../../../../../../{output.table4}
 
         cd ../../../../../..
         rm -rf 3-metrics/repeatmasker/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.lround}-wkdir
@@ -1138,11 +1138,11 @@ rule busco:
     threads: 4
     shell:
         """
-        mkdir -p 3-metrics/busco/{wildcards.techs}/{wildcards.asm} && cd 3-metrics/busco/{wildcards.techs}/{wildcards.asm};
+        mkdir -p 3-metrics/busco/{wildcards.techs}/{wildcards.asm} && cd 3-metrics/busco/{wildcards.techs}/{wildcards.asm}
         export BUSCO_CONFIG_FILE="/datasets/work/hb-eval-genome/work/benchmarking/busco/config/config-basic.ini"
         export AUGUSTUS_CONFIG_PATH="/datasets/work/hb-eval-genome/work/benchmarking/augustus/config/"
 
-        busco -i ../../../../{input.asm} -o {wildcards.asm}-{wildcards.tag} -l /datasets/work/hb-eval-genome/work/benchmarking/busco/lineages/{config[odb-set]}/ -m geno -c {threads};
+        busco -i ../../../../{input.asm} -o {wildcards.asm}-{wildcards.tag} -l /datasets/work/hb-eval-genome/work/benchmarking/busco/lineages/{config[odb-set]}/ -m geno -c {threads}
 
         rm -rf run_{wildcards.asm}-{wildcards.tag}/augustus_output/ run_{wildcards.asm}-{wildcards.tag}/blast_output/ run_{wildcards.asm}-{wildcards.tag}/hmmer_output/ 
         cd ../../../..
@@ -1160,11 +1160,11 @@ rule busco_ref:
     threads: 4
     shell:
         """
-        mkdir -p 3-metrics/busco/ref && cd 3-metrics/busco/ref;
+        mkdir -p 3-metrics/busco/ref && cd 3-metrics/busco/ref
         export BUSCO_CONFIG_FILE="/datasets/work/hb-eval-genome/work/benchmarking/busco/config/config-basic.ini"
         export AUGUSTUS_CONFIG_PATH="/datasets/work/hb-eval-genome/work/benchmarking/augustus/config/"
 
-        busco -i ../../../{input.ref} -o ref -l /datasets/work/hb-eval-genome/work/benchmarking/busco/lineages/{config[odb-set]}/ -m geno -c {threads};
+        busco -i ../../../{input.ref} -o ref -l /datasets/work/hb-eval-genome/work/benchmarking/busco/lineages/{config[odb-set]}/ -m geno -c {threads}
 
         rm -rf run_ref/augustus_output/ run_ref/blast_output/ run_ref/hmmer_output/ 
         cd ../../../..
@@ -1190,7 +1190,7 @@ rule red:
         cd 3-metrics/red/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.tag}
         cp ../../../../../{input.asm} asm.fa
 
-        Red -gnm ./ -msk ./{wildcards.asm}-{wildcards.tag}-Red -cor {threads} 1> {wildcards.asm}-{wildcards.tag}.txt;
+        Red -gnm ./ -msk ./{wildcards.asm}-{wildcards.tag}-Red -cor {threads} 1> {wildcards.asm}-{wildcards.tag}.txt
 
         rm -rf asm.fa
 
@@ -1226,7 +1226,7 @@ rule buscomp_ill_asm:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../busco/ILL/*/run_*-scaffold,../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile=ill-asm-comparison\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/ILL/ill-asm-comparison/input.ini
         cd 3-metrics/buscomp/ILL/ill-asm-comparison
 
-        buscomp.py -ini input.ini i=-1 ;
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../..
@@ -1255,7 +1255,7 @@ rule buscomp_nano_asm:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../busco/NANO/*/run_*-scaffold,../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile=nano-asm-comparison\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/NANO/nano-asm-comparison/input.ini
         cd 3-metrics/buscomp/NANO/nano-asm-comparison
 
-        python ../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../..
@@ -1284,7 +1284,7 @@ rule buscomp_pacbio_asm:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../busco/PACBIO/*/run_*-scaffold,../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile=pacbio-asm-comparison\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/PACBIO/pacbio-asm-comparison/input.ini
         cd 3-metrics/buscomp/PACBIO/pacbio-asm-comparison
 
-        python ../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../..
@@ -1317,7 +1317,7 @@ rule buscomp_nano_hyb_asm:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../busco/HYB/*/run_*-scaffold,../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile=nano-hyb-asm-comparison\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/nano-hyb-asm-comparison/input.ini
         cd 3-metrics/buscomp/HYB/nano-hyb-asm-comparison
 
-        python ../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../..
@@ -1350,7 +1350,7 @@ rule buscomp_pacbio_hyb_asm:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../busco/HYB/*/run_*-scaffold,../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile=pacbio-hyb-asm-comparison\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/pacbio-hyb-asm-comparison/input.ini
         cd 3-metrics/buscomp/HYB/pacbio-hyb-asm-comparison
 
-        python ../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../..
@@ -1383,7 +1383,7 @@ rule buscomp_hyb_hyb_asm:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../busco/HYB/*/run_*-scaffold,../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile=hyb-hyb-asm-comparison\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/hyb-hyb-asm-comparison/input.ini
         cd 3-metrics/buscomp/HYB/hyb-hyb-asm-comparison
 
-        python ../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../..
@@ -1418,7 +1418,7 @@ rule buscomp_ill_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/ILL/{wildcards.asm}/run_*-scaffold-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/ILL/{wildcards.asm}/{wildcards.asm}-scaffold-short/input.ini
         cd 3-metrics/buscomp/ILL/{wildcards.asm}/{wildcards.asm}-scaffold-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1453,7 +1453,7 @@ rule buscomp_nano_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/NANO/{wildcards.asm}/run_*-scaffold-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-short/input.ini
         cd 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1485,7 +1485,7 @@ rule buscomp_nano_long:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/NANO/{wildcards.asm}/run_*-scaffold-long-*-nano-[1234],../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-long\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long/input.ini
         cd 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1517,7 +1517,7 @@ rule buscomp_nano_long_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/NANO/{wildcards.asm}/run_*-scaffold-long-*-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-long-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short/input.ini
         cd 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1549,7 +1549,7 @@ rule buscomp_nano_hyb:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/NANO/{wildcards.asm}/run_*-scaffold-hyb-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-hyb\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb/input.ini
         cd 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1584,7 +1584,7 @@ rule buscomp_pacbio_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/PACBIO/{wildcards.asm}/run_*-scaffold-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-short/input.ini
         cd 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1616,7 +1616,7 @@ rule buscomp_pacbio_long:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/PACBIO/{wildcards.asm}/run_*-scaffold-long-*-pacbio-[1234],../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-long\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long/input.ini
         cd 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1648,7 +1648,7 @@ rule buscomp_pacbio_long_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/PACBIO/{wildcards.asm}/run_*-scaffold-long-*-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-long-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short/input.ini
         cd 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1680,7 +1680,7 @@ rule buscomp_pacbio_hyb:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/PACBIO/{wildcards.asm}/run_*-scaffold-hyb-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-hyb\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb/input.ini
         cd 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1714,7 +1714,7 @@ rule buscomp_nano_hyb_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.nhasm}/run_*-scaffold-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.nhasm}-scaffold-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-short/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1746,7 +1746,7 @@ rule buscomp_nano_hyb_long:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.nhasm}/run_*-scaffold-long-*-nano-[1234],../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.nhasm}-scaffold-long\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1778,7 +1778,7 @@ rule buscomp_nano_hyb_long_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.nhasm}/run_*-scaffold-long-*-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.nhasm}-scaffold-long-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long-short/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1810,7 +1810,7 @@ rule buscomp_nano_hyb_hyb:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.nhasm}/run_*-scaffold-hyb-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.nhasm}-scaffold-hyb\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-hyb/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-hyb
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1844,7 +1844,7 @@ rule buscomp_pacbio_hyb_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.phasm}/run_*-scaffold-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.phasm}-scaffold-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-short/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1876,7 +1876,7 @@ rule buscomp_pacbio_hyb_long:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.phasm}/run_*-scaffold-long-*-pacbio-[1234],../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.phasm}-scaffold-long\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1908,7 +1908,7 @@ rule buscomp_pacbio_hyb_long_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.phasm}/run_*-scaffold-long-*-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.phasm}-scaffold-long-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long-short/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1940,7 +1940,7 @@ rule buscomp_pacbio_hyb_hyb:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.phasm}/run_*-scaffold-hyb-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.phasm}-scaffold-hyb\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-hyb/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-hyb
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1974,7 +1974,7 @@ rule buscomp_hyb_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.hhasm}/run_*-scaffold-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.hhasm}-scaffold-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-short/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -2006,7 +2006,7 @@ rule buscomp_hyb_long:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.hhasm}/run_*-scaffold-long-*-comb-[1234],../../../../busco/HYB/*/run_*-scaffold-long-*-nano-[1234],../../../../busco/HYB/*/run_*-scaffold-long-*-pacbio-[1234],../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.hhasm}-scaffold-long\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -2038,7 +2038,7 @@ rule buscomp_hyb_long_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.hhasm}/run_*-scaffold-long-*-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.hhasm}-scaffold-long-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long-short/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -2070,7 +2070,7 @@ rule buscomp_hyb_hyb:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.hhasm}/run_*-scaffold-hyb-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.hhasm}-scaffold-hyb\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-hyb/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-hyb
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1 ;
+        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..

@@ -22,7 +22,7 @@ rule write_metrics:
     threads: 1
     shell:
         """
-        results-extractor.py -a {input.asm};
+        results-extractor.py -a {input.asm}
         """
 
 rule combine_metrics:

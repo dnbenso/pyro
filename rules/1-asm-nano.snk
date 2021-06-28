@@ -22,11 +22,11 @@ rule canu_nano:
     threads: 20
     shell:
         """
-        canu -p canu-nano -d 1-assembly/NANO/canu-nano/ genomeSize={config[genomesize]} -nanopore-raw {input.nano} -useGrid=false;
+        canu -p canu-nano -d 1-assembly/NANO/canu-nano/ genomeSize={config[genomesize]} -nanopore-raw {input.nano} -useGrid=false
 
         cp 1-assembly/NANO/canu-nano/canu-nano.contigs.fasta {output.scf}
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule canu_fast_nano:
@@ -45,11 +45,11 @@ rule canu_fast_nano:
     threads: 20
     shell:
         """
-        canu -p canu-fast-nano -d 1-assembly/NANO/canu-fast-nano/ genomeSize={config[genomesize]} -nanopore-raw {input.nano} -useGrid=false -fast;
+        canu -p canu-fast-nano -d 1-assembly/NANO/canu-fast-nano/ genomeSize={config[genomesize]} -nanopore-raw {input.nano} -useGrid=false -fast
 
         cp 1-assembly/NANO/canu-fast-nano/canu-fast-nano.contigs.fasta {output.scf}
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule flye_nano:
@@ -68,7 +68,7 @@ rule flye_nano:
     shell:
         """
         export PYTHONPATH=/usr/local/lib/python3.8/site-packages
-        flye --nano-raw {input.nano} --genome-size {config[genomesize]} --out-dir 1-assembly/NANO/flye-nano/ --threads {threads};
+        flye --nano-raw {input.nano} --genome-size {config[genomesize]} --out-dir 1-assembly/NANO/flye-nano/ --threads {threads}
 
         mv 1-assembly/NANO/flye-nano/assembly.fasta {output.scf}
 
@@ -95,13 +95,13 @@ rule miniasm_nano:
         """
         cd 1-assembly/NANO/miniasm-nano
 
-        minimap2 -x ava-ont -t {threads} ../../../{input.nano} ../../../{input.nano} > ../../../{output.aln};
-        miniasm -f ../../../{input.nano} ../../../{output.aln} > ../../../{output.gfa};
-        mini-awk.sh miniasm-nano-graph.gfa miniasm-nano-scaffold.fa;
+        minimap2 -x ava-ont -t {threads} ../../../{input.nano} ../../../{input.nano} > ../../../{output.aln}
+        miniasm -f ../../../{input.nano} ../../../{output.aln} > ../../../{output.gfa}
+        mini-awk.sh miniasm-nano-graph.gfa miniasm-nano-scaffold.fa
 
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule necat_nano:
@@ -123,21 +123,21 @@ rule necat_nano:
         export PATH=/usr/local/stow/necat_20200803/bin:$PATH
         cd 1-assembly/NANO/necat-nano/
 
-        necat.pl config necat-config.txt;
+        necat.pl config necat-config.txt
 
-        realpath ../../../{input.nano} > ont_reads.txt;
+        realpath ../../../{input.nano} > ont_reads.txt
 
-        sed -i 's|PROJECT=|PROJECT=necat|' necat-config.txt;
-        sed -i 's|ONT_READ_LIST=|ONT_READ_LIST=ont_reads.txt|' necat-config.txt;
-        sed -i 's|GENOME_SIZE=|GENOME_SIZE={config[genomesize]}|' necat-config.txt;
-        sed -i 's|THREADS=4|THREADS={threads}|' necat-config.txt;
+        sed -i 's|PROJECT=|PROJECT=necat|' necat-config.txt
+        sed -i 's|ONT_READ_LIST=|ONT_READ_LIST=ont_reads.txt|' necat-config.txt
+        sed -i 's|GENOME_SIZE=|GENOME_SIZE={config[genomesize]}|' necat-config.txt
+        sed -i 's|THREADS=4|THREADS={threads}|' necat-config.txt
 
-        necat.pl assemble necat-config.txt;
+        necat.pl assemble necat-config.txt
 
-		cp necat/4-fsa/contigs.fasta ../../../{output.scf};
+		cp necat/4-fsa/contigs.fasta ../../../{output.scf}
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule necat_nano_bridge:
@@ -159,19 +159,19 @@ rule necat_nano_bridge:
         export PATH=/usr/local/stow/necat_20200803/bin:$PATH
         cd 1-assembly/NANO/necat-bridge-nano/
 
-        necat.pl config necat-config.txt;
+        necat.pl config necat-config.txt
 
-        sed -i 's|PROJECT=|PROJECT=necat|' necat-config.txt;
-        sed -i 's|ONT_READ_LIST=|ONT_READ_LIST=../../../{input.nano}|' necat-config.txt;
-        sed -i 's|GENOME_SIZE=|GENOME_SIZE={config[genomesize]}|' necat-config.txt;
-        sed -i 's|THREADS=4|THREADS={threads}|' necat-config.txt;
+        sed -i 's|PROJECT=|PROJECT=necat|' necat-config.txt
+        sed -i 's|ONT_READ_LIST=|ONT_READ_LIST=../../../{input.nano}|' necat-config.txt
+        sed -i 's|GENOME_SIZE=|GENOME_SIZE={config[genomesize]}|' necat-config.txt
+        sed -i 's|THREADS=4|THREADS={threads}|' necat-config.txt
 
-        necat.pl bridge necat-config.txt;
+        necat.pl bridge necat-config.txt
 
-		cp necat/6-bridge_contigs/polished_contigs.fasta ../../../{output.scf};
+		cp necat/6-bridge_contigs/polished_contigs.fasta ../../../{output.scf}
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule raven_nano:
@@ -191,11 +191,11 @@ rule raven_nano:
         """
         cd 1-assembly/NANO/raven-nano/ 
 
-        raven -p 0 -t {threads} ../../../{input.nano} > ../../../{output.scf};
+        raven -p 0 -t {threads} ../../../{input.nano} > ../../../{output.scf}
 
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule shasta_nano:
@@ -214,7 +214,7 @@ rule shasta_nano:
     threads: 20
     shell:
         """
-        gunzip -k -c {input.nano} | sed -n -e '1~4s/^@/>/p;2~4p' > {output.fa};
+        gunzip -k -c {input.nano} | sed -n -e '1~4s/^@/>/p;2~4p' > {output.fa}
         cd 1-assembly/NANO/shasta-nano/
 
         shasta --input ../../../{output.fa} --threads {threads}
@@ -222,7 +222,7 @@ rule shasta_nano:
         cp ShastaRun/Assembly.fasta ../../../{output.scf}
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule wtdbg2_nano:
@@ -270,11 +270,11 @@ rule flye_corr_nano:
     shell:
         """
         export PYTHONPATH=/usr/local/lib/python3.8/site-packages
-        flye --pacbio-hifi {input.nano} --genome-size {config[genomesize]} --out-dir 1-assembly/NANO/flye-corr-nano/ --threads {threads};
+        flye --pacbio-hifi {input.nano} --genome-size {config[genomesize]} --out-dir 1-assembly/NANO/flye-corr-nano/ --threads {threads}
 
         mv 1-assembly/NANO/flye-corr-nano/assembly.fasta {output.scf}
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule raven_corr_nano:
@@ -294,11 +294,11 @@ rule raven_corr_nano:
         """
         cd 1-assembly/NANO/raven-corr-nano/ 
 
-        raven -p 0 -t {threads} ../../../{input.nano} > ../../../{output.scf};
+        raven -p 0 -t {threads} ../../../{input.nano} > ../../../{output.scf}
 
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule wtdbg2_corr_nano:
@@ -325,5 +325,5 @@ rule wtdbg2_corr_nano:
 
         cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """

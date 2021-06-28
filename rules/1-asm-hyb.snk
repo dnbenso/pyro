@@ -28,11 +28,11 @@ rule haslr_nano_hyb:
     threads: 20
     shell:
         """
-        haslr.py -t {threads} -o 1-assembly/HYB/haslr-nano-hyb -g {config[genomesize]} -l {input.nano} -x nanopore -s {input.i1} {input.i2};
+        haslr.py -t {threads} -o 1-assembly/HYB/haslr-nano-hyb -g {config[genomesize]} -l {input.nano} -x nanopore -s {input.i1} {input.i2}
 
-        cp 1-assembly/HYB/haslr-nano-hyb/asm_contig*/asm.final.fa {output.scf};
+        cp 1-assembly/HYB/haslr-nano-hyb/asm_contig*/asm.final.fa {output.scf}
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 # Illumina + PacBio Assemblers
@@ -60,23 +60,23 @@ rule dbg2olc_pacbio_hyb:
     threads: 20
     shell:
         """
-        gunzip -k -c {input.pb} | sed -n -e '1~4s/^@/>/p;2~4p' > {output.fa};
+        gunzip -k -c {input.pb} | sed -n -e '1~4s/^@/>/p;2~4p' > {output.fa}
         cd 1-assembly/HYB/dbg2olc-pacbio-hyb/
  
-        SparseAssembler g 10 k 51 LD 0 GS {config[genomesize]} f ../../../{input.in1} f ../../../{input.in2};
+        SparseAssembler g 10 k 51 LD 0 GS {config[genomesize]} f ../../../{input.in1} f ../../../{input.in2}
 
-        DBG2OLC Contigs Contigs.txt k 17 KmerCovTh 2 MinOverlap 50 AdaptiveTh 0.01 RemoveChimera 1 f ../../../{output.fa};
+        DBG2OLC Contigs Contigs.txt k 17 KmerCovTh 2 MinOverlap 50 AdaptiveTh 0.01 RemoveChimera 1 f ../../../{output.fa}
 
-        cat Contigs.txt pacbio.fasta > ctg_pb.fasta;
+        cat Contigs.txt pacbio.fasta > ctg_pb.fasta
         mkdir -p consensus-dir
 
-        split_reads_by_backbone.py -b backbone_raw.fasta -o consensus-dir -r ctg_pb.fasta -c DBG2OLC_Consensus_info.txt;
-        split_and_run_sparc.sh  backbone_raw.fasta DBG2OLC_Consensus_info.txt ctg_pb.fasta consensus-dir 2 > cns_log.txt;
+        split_reads_by_backbone.py -b backbone_raw.fasta -o consensus-dir -r ctg_pb.fasta -c DBG2OLC_Consensus_info.txt
+        split_and_run_sparc.sh  backbone_raw.fasta DBG2OLC_Consensus_info.txt ctg_pb.fasta consensus-dir 2 > cns_log.txt
 
-        cp consensus-dir/final_assembly.fasta ../../../{output.scf};
+        cp consensus-dir/final_assembly.fasta ../../../{output.scf}
         rm -rf consensus-dir && cd ../../..
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule haslr_pacbio_hyb:
@@ -96,11 +96,11 @@ rule haslr_pacbio_hyb:
     threads: 20
     shell:
         """
-        haslr.py -t {threads} -o 1-assembly/HYB/haslr-pacbio-hyb -g {config[genomesize]} -l {input.pb} -x pacbio -s {input.i1} {input.i2};
+        haslr.py -t {threads} -o 1-assembly/HYB/haslr-pacbio-hyb -g {config[genomesize]} -l {input.pb} -x pacbio -s {input.i1} {input.i2}
 
-        cp 1-assembly/HYB/haslr-pacbio-hyb/asm_contig*/asm.final.fa {output.scf};
+        cp 1-assembly/HYB/haslr-pacbio-hyb/asm_contig*/asm.final.fa {output.scf}
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 # Illumina + Nanopore + PacBio Assemblers
@@ -131,28 +131,28 @@ rule masurca_hyb:
         """
         . /usr/local/stow/miniconda3-4.6.14/etc/profile.d/conda.sh
         cd 1-assembly/HYB/masurca-hyb/
-        cp ../../../{input.conf} config.txt;
+        cp ../../../{input.conf} config.txt
 
         #unpigz -k -c ../../../{input.nano} > nano.fastq && unpigz -k -c ../../../{input.pb} > pacbio.fastq;
         #cat nano.fastq pacbio.fastq | pigz -c - > ../../../{output.long};
         cat ../../../{input.nano} ../../../{input.pb} >../../../{output.long}
 
-        sed -i 's|INPUTREAD1|../../../{input.i1}|' config.txt;
-        sed -i 's|INPUTREAD2|../../../{input.i2}|' config.txt;
-        sed -i 's|#NANOPORE=INPUTREADLONG|NANOPORE=../../../{output.long}|' config.txt;
-        sed -i 's|USE_LINKING_MATES=1|USE_LINKING_MATES=0|' config.txt;
-        sed -i 's|JELLYFISHSIZE|{params.jfsize}|' config.txt;
+        sed -i 's|INPUTREAD1|../../../{input.i1}|' config.txt
+        sed -i 's|INPUTREAD2|../../../{input.i2}|' config.txt
+        sed -i 's|#NANOPORE=INPUTREADLONG|NANOPORE=../../../{output.long}|' config.txt
+        sed -i 's|USE_LINKING_MATES=1|USE_LINKING_MATES=0|' config.txt
+        sed -i 's|JELLYFISHSIZE|{params.jfsize}|' config.txt
 
         conda activate masurca
-        masurca config.txt;
+        masurca config.txt
 
-        bash assemble.sh;
+        bash assemble.sh
         conda deactivate
 
-        cp CA*/final.genome.scf.fasta ../../../{output.scf};
+        cp CA*/final.genome.scf.fasta ../../../{output.scf}
         cd ../../../
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule masurca_flye_hyb:
@@ -186,23 +186,23 @@ rule masurca_flye_hyb:
         #cat nano.fastq pacbio.fastq | pigz -c - > ../../../{output.long};
         cat ../../../{input.nano} ../../../{input.pb} >../../../{output.long}
 
-        sed -i 's|INPUTREAD1|../../../{input.i1}|' config.txt;
-        sed -i 's|INPUTREAD2|../../../{input.i2}|' config.txt;
-        sed -i 's|#NANOPORE=INPUTREADLONG|NANOPORE=../../../{output.long}|' config.txt;
-        sed -i 's|USE_LINKING_MATES=1|USE_LINKING_MATES=0|' config.txt;
-        sed -i 's|JELLYFISHSIZE|{params.jfsize}|' config.txt;
-        sed -i 's|FLYE_ASSEMBLY=0|FLYE_ASSEMBLY=1|' config.txt;
+        sed -i 's|INPUTREAD1|../../../{input.i1}|' config.txt
+        sed -i 's|INPUTREAD2|../../../{input.i2}|' config.txt
+        sed -i 's|#NANOPORE=INPUTREADLONG|NANOPORE=../../../{output.long}|' config.txt
+        sed -i 's|USE_LINKING_MATES=1|USE_LINKING_MATES=0|' config.txt
+        sed -i 's|JELLYFISHSIZE|{params.jfsize}|' config.txt
+        sed -i 's|FLYE_ASSEMBLY=0|FLYE_ASSEMBLY=1|' config.txt
 
         conda activate masurca
-        masurca config.txt;
+        masurca config.txt
 
-        bash assemble.sh;
+        bash assemble.sh
         conda deactivate
 
-        cp flye/assembly.fasta ../../../{output.scf};
+        cp flye/assembly.fasta ../../../{output.scf}
         cd ../../../
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 
 rule spades_hyb:
@@ -225,11 +225,11 @@ rule spades_hyb:
     threads: 20
     shell:
         """
-        spades.py -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pb} -t {threads} -m {config[mem]} -o 1-assembly/HYB/spades-hyb/;
+        spades.py -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pb} -t {threads} -m {config[mem]} -o 1-assembly/HYB/spades-hyb/
 
         mv 1-assembly/HYB/spades-hyb/scaffolds.fasta {output.scf}
         mv 1-assembly/HYB/spades-hyb/contigs.fasta {output.ctg}
 
-        assembly-stats {output.scf} > {output.stats};
+        assembly-stats {output.scf} > {output.stats}
         """
 

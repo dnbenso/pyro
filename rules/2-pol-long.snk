@@ -31,30 +31,30 @@ rule long_medaka_nano:
     shell:
         """
         . /usr/local/stow/miniconda3-4.6.14/etc/profile.d/conda.sh
-        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medaka-nano-wkdir;
-        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medaka-nano-wkdir/asm.fa;
-        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medaka-nano-wkdir;
+        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medaka-nano-wkdir
+        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medaka-nano-wkdir/asm.fa
+        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medaka-nano-wkdir
 
         conda activate medaka
         /usr/bin/time \
             -o ../../../../{output.m1} \
-            -v medaka_consensus -i ../../../../{input.nano} -d asm.fa -o run01-dir -t {threads};
-        cp run01-dir/consensus.fasta ../../../../{output.out1};
+            -v medaka_consensus -i ../../../../{input.nano} -d asm.fa -o run01-dir -t {threads}
+        cp run01-dir/consensus.fasta ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.m2} \
-            -v medaka_consensus -i ../../../../{input.nano} -d run01-dir/consensus.fasta -o run02-dir -t {threads};
-        cp run02-dir/consensus.fasta ../../../../{output.out2};
+            -v medaka_consensus -i ../../../../{input.nano} -d run01-dir/consensus.fasta -o run02-dir -t {threads}
+        cp run02-dir/consensus.fasta ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.m3} \
-            -v medaka_consensus -i ../../../../{input.nano} -d run02-dir/consensus.fasta -o run03-dir -t {threads};
-        cp run03-dir/consensus.fasta ../../../../{output.out3};
+            -v medaka_consensus -i ../../../../{input.nano} -d run02-dir/consensus.fasta -o run03-dir -t {threads}
+        cp run03-dir/consensus.fasta ../../../../{output.out3}
 
         /usr/bin/time \
             -o ../../../../{output.m4} \
-            -v medaka_consensus -i ../../../../{input.nano} -d run03-dir/consensus.fasta -o run04-dir -t {threads};
-        cp run04-dir/consensus.fasta ../../../../{output.out4};
+            -v medaka_consensus -i ../../../../{input.nano} -d run03-dir/consensus.fasta -o run04-dir -t {threads}
+        cp run04-dir/consensus.fasta ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.shortpol}-long-medaka-nano-wkdir && cd ../../..
         """
@@ -81,35 +81,35 @@ rule long_nextpolish_nano:
     threads: 20
     shell:
         """
-        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-nano-wkdir;
-        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-nano-wkdir/asm.fa;
-        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-nano-wkdir;
+        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-nano-wkdir
+        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-nano-wkdir/asm.fa
+        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-nano-wkdir
 
-        echo -e "../../../../{input.nano}" > lgs.fofn;
+        echo -e "../../../../{input.nano}" > lgs.fofn
 
         echo -e "job_type = local\njob_prefix = run-1\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = ./asm.fa\ngenome_size = auto\nworkdir = ./01_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-1.cfg;
         /usr/bin/time \
             -o ../../../../{output.n1} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-1.cfg;
-        cp 01_rundir/genome.nextpolish.fasta ../../../../{output.out1};
+            -v ../../../../../../benchmarking/NextPolish/nextPolish run-1.cfg
+        cp 01_rundir/genome.nextpolish.fasta ../../../../{output.out1}
 
         echo -e "job_type = local\njob_prefix = run-2\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 01_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./02_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-2.cfg;
         /usr/bin/time \
             -o ../../../../{output.n2} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-2.cfg;
-        cp 02_rundir/genome.nextpolish.fasta ../../../../{output.out2};
+            -v ../../../../../../benchmarking/NextPolish/nextPolish run-2.cfg
+        cp 02_rundir/genome.nextpolish.fasta ../../../../{output.out2}
 
         echo -e "job_type = local\njob_prefix = run-3\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 02_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./03_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-3.cfg;
         /usr/bin/time \
             -o ../../../../{output.n3} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-3.cfg;
-        cp 03_rundir/genome.nextpolish.fasta ../../../../{output.out3};
+            -v ../../../../../../benchmarking/NextPolish/nextPolish run-3.cfg
+        cp 03_rundir/genome.nextpolish.fasta ../../../../{output.out3}
 
         echo -e "job_type = local\njob_prefix = run-4\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 03_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./04_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-4.cfg;
         /usr/bin/time \
             -o ../../../../{output.n4} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-4.cfg;
-        cp 04_rundir/genome.nextpolish.fasta ../../../../{output.out4};
+            -v ../../../../../../benchmarking/NextPolish/nextPolish run-4.cfg
+        cp 04_rundir/genome.nextpolish.fasta ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.shortpol}-long-nextpolish-nano-wkdir && cd ../../..
         """
@@ -141,41 +141,41 @@ rule long_racon_nano:
     threads: 20
     shell:
         """
-        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-nano-wkdir;
-        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-nano-wkdir/asm.fa;
-        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-nano-wkdir;
+        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-nano-wkdir
+        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-nano-wkdir/asm.fa
+        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-nano-wkdir
 
         /usr/bin/time \
             -o ../../../../{output.m1} \
-            -v minimap2 -x map-ont asm.fa ../../../../{input.nano} > align1.paf;
+            -v minimap2 -x map-ont asm.fa ../../../../{input.nano} > align1.paf
         /usr/bin/time \
             -o ../../../../{output.r1} \
-            -v racon -u -t 20 ../../../../{input.nano} align1.paf asm.fa > out1.fa;
-        cp out1.fa ../../../../{output.out1};
+            -v racon -u -t 20 ../../../../{input.nano} align1.paf asm.fa > out1.fa
+        cp out1.fa ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.m2} \
-            -v minimap2 -x map-ont out1.fa ../../../../{input.nano} > align2.paf;
+            -v minimap2 -x map-ont out1.fa ../../../../{input.nano} > align2.paf
         /usr/bin/time \
             -o ../../../../{output.r2} \
-            -v racon -u -t 20 ../../../../{input.nano} align2.paf out1.fa > out2.fa;
-        cp out2.fa ../../../../{output.out2};
+            -v racon -u -t 20 ../../../../{input.nano} align2.paf out1.fa > out2.fa
+        cp out2.fa ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.m3} \
-            -v minimap2 -x map-ont out2.fa ../../../../{input.nano} > align3.paf;
+            -v minimap2 -x map-ont out2.fa ../../../../{input.nano} > align3.paf
         /usr/bin/time \
             -o ../../../../{output.r3} \
-            -v racon -u -t 20 ../../../../{input.nano} align3.paf out2.fa > out3.fa;
-        cp out3.fa ../../../../{output.out3};
+            -v racon -u -t 20 ../../../../{input.nano} align3.paf out2.fa > out3.fa
+        cp out3.fa ../../../../{output.out3}
 
         /usr/bin/time \
             -o ../../../../{output.m4} \
-            -v minimap2 -x map-ont out3.fa ../../../../{input.nano} > align4.paf;
+            -v minimap2 -x map-ont out3.fa ../../../../{input.nano} > align4.paf
         /usr/bin/time \
             -o ../../../../{output.r4} \
-            -v racon -u -t 20 ../../../../{input.nano} align4.paf out3.fa > out4.fa;
-        cp out4.fa ../../../../{output.out4};
+            -v racon -u -t 20 ../../../../{input.nano} align4.paf out3.fa > out4.fa
+        cp out4.fa ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.shortpol}-long-racon-nano-wkdir && cd ../../..
         """
@@ -204,29 +204,29 @@ rule long_medrac_nano:
     shell:
         """
         . /usr/local/stow/miniconda3-4.6.14/etc/profile.d/conda.sh
-        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-nano-wkdir;
-        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-nano-wkdir/asm.fa;
-        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-nano-wkdir;
+        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-nano-wkdir
+        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-nano-wkdir/asm.fa
+        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-nano-wkdir
 
         /usr/bin/time \
             -o ../../../../{output.m1} \
-            -v medaka_consensus -i ../../../../{input.nano} -d asm.fa -o run01-dir -t {threads};
-        cp run01-dir/consensus.fasta ../../../../{output.out1};
+            -v medaka_consensus -i ../../../../{input.nano} -d asm.fa -o run01-dir -t {threads}
+        cp run01-dir/consensus.fasta ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.m2} \
-            -v medaka_consensus -i ../../../../{input.nano} -d run01-dir/consensus.fasta -o run02-dir -t {threads};
-        cp run02-dir/consensus.fasta ../../../../{output.out2};
+            -v medaka_consensus -i ../../../../{input.nano} -d run01-dir/consensus.fasta -o run02-dir -t {threads}
+        cp run02-dir/consensus.fasta ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.m3} \
-            -v medaka_consensus -i ../../../../{input.nano} -d run02-dir/consensus.fasta -o run03-dir -t {threads};
-        cp run03-dir/consensus.fasta ../../../../{output.out3};
+            -v medaka_consensus -i ../../../../{input.nano} -d run02-dir/consensus.fasta -o run03-dir -t {threads}
+        cp run03-dir/consensus.fasta ../../../../{output.out3}
 
         /usr/bin/time \
             -o ../../../../{output.m4} \
-            -v medaka_consensus -i ../../../../{input.nano} -d run03-dir/consensus.fasta -o run04-dir -t {threads};
-        cp run04-dir/consensus.fasta ../../../../{output.out4};
+            -v medaka_consensus -i ../../../../{input.nano} -d run03-dir/consensus.fasta -o run04-dir -t {threads}
+        cp run04-dir/consensus.fasta ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.shortpol}-long-medrac-nano-wkdir && cd ../../..
         """
@@ -274,81 +274,81 @@ rule long_arrow_pacbio:
         /usr/bin/time \
             -o ../../../../{output.pa1} \
             -v /bin/bash -c \
-                'pbalign-process.sh asm.fa arrow-1 {threads}';
-        ls arrow-1/arrow-1-align-*.bam > out1.fofn;
+                'pbalign-process.sh asm.fa arrow-1 {threads}'
+        ls arrow-1/arrow-1-align-*.bam > out1.fofn
         /usr/bin/time \
             -o ../../../../{output.b1} \
             -v /bin/bash -c \
-                'bamtools merge -list out1.fofn -out out1.bam';
+                'bamtools merge -list out1.fofn -out out1.bam'
         /usr/bin/time \
             -o ../../../../{output.pi1} \
             -v /bin/bash -c \
-                'pbindex out1.bam';
+                'pbindex out1.bam'
         /usr/bin/time \
             -o ../../../../{output.a1} \
             -v /bin/bash -c \
-                'arrow --referenceFilename asm.fa -o out1.fa -j {threads} out1.bam';
-        cp out1.fa ../../../../{output.out1};
+                'arrow --referenceFilename asm.fa -o out1.fa -j {threads} out1.bam'
+        cp out1.fa ../../../../{output.out1}
 
-        samtools faidx out1.fa;
+        samtools faidx out1.fa
         /usr/bin/time \
             -o ../../../../{output.pa2} \
             -v /bin/bash -c \
-                'pbalign-process.sh out1.fa arrow-2 {threads}';
-        ls arrow-2/arrow-2-align-*.bam > out2.fofn;
+                'pbalign-process.sh out1.fa arrow-2 {threads}'
+        ls arrow-2/arrow-2-align-*.bam > out2.fofn
         /usr/bin/time \
             -o ../../../../{output.b2} \
             -v /bin/bash -c \
-                'bamtools merge -list out2.fofn -out out2.bam';
+                'bamtools merge -list out2.fofn -out out2.bam'
         /usr/bin/time \
             -o ../../../../{output.pi2} \
             -v /bin/bash -c \
-                'pbindex out2.bam';
+                'pbindex out2.bam'
         /usr/bin/time \
             -o ../../../../{output.a2} \
             -v /bin/bash -c \
-                'arrow --referenceFilename out1.fa -o out2.fa -j {threads} out2.bam';
-        cp out2.fa ../../../../{output.out2};
+                'arrow --referenceFilename out1.fa -o out2.fa -j {threads} out2.bam'
+        cp out2.fa ../../../../{output.out2}
 
         samtools faidx out2.fa;
         /usr/bin/time \
             -o ../../../../{output.pa3} \
             -v /bin/bash -c \
-                'pbalign-process.sh out2.fa arrow-3 {threads}';
-        ls arrow-3/arrow-3-align-*.bam > out3.fofn;
+                'pbalign-process.sh out2.fa arrow-3 {threads}'
+        ls arrow-3/arrow-3-align-*.bam > out3.fofn
         /usr/bin/time \
             -o ../../../../{output.b3} \
             -v /bin/bash -c \
-                'bamtools merge -list out3.fofn -out out3.bam';
+                'bamtools merge -list out3.fofn -out out3.bam'
         /usr/bin/time \
             -o ../../../../{output.pi3} \
             -v /bin/bash -c \
-                'pbindex out3.bam';
+                'pbindex out3.bam'
         /usr/bin/time \
             -o ../../../../{output.a3} \
             -v /bin/bash -c \
-                'arrow --referenceFilename out2.fa -o out3.fa -j {threads} out3.bam';
-        cp out3.fa ../../../../{output.out3};
+                'arrow --referenceFilename out2.fa -o out3.fa -j {threads} out3.bam'
+        cp out3.fa ../../../../{output.out3}
 
-        samtools faidx out3.fa;
+        samtools faidx out3.fa
         /usr/bin/time \
             -o ../../../../{output.pa4} \
             -v /bin/bash -c \
-                'pbalign-process.sh out3.fa arrow-4 {threads}';
-        ls arrow-4/arrow-4-align-*.bam > out4.fofn;
+                'pbalign-process.sh out3.fa arrow-4 {threads}'
+        ls arrow-4/arrow-4-align-*.bam > out4.fofn
         /usr/bin/time \
             -o ../../../../{output.b4} \
             -v /bin/bash -c \
-                'bamtools merge -list out4.fofn -out out4.bam';
+                'bamtools merge -list out4.fofn -out out4.bam'
         /usr/bin/time \
             -o ../../../../{output.pi4} \
             -v /bin/bash -c \
-                'pbindex out4.bam';
+                'pbindex out4.bam'
         /usr/bin/time \
             -o ../../../../{output.a4} \
             -v /bin/bash -c \
-                'arrow --referenceFilename out3.fa -o out4.fa -j {threads} out4.bam';
-        cp out4.fa ../../../../{output.out4};
+                'arrow --referenceFilename out3.fa -o out4.fa -j {threads} out4.bam'
+        cp out4.fa ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.shortpol}-long-arrow-pacbio && cd ../../..
         source deactivate 
@@ -376,35 +376,35 @@ rule long_nextpolish_pacbio:
     threads: 20
     shell:
         """
-        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-pacbio-wkdir;
-        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-pacbio-wkdir/asm.fa;
-        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-pacbio-wkdir;
+        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-pacbio-wkdir
+        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-pacbio-wkdir/asm.fa
+        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-pacbio-wkdir
 
-        echo -e "../../../../{input.pacbio}" > lgs.fofn;
+        echo -e "../../../../{input.pacbio}" > lgs.fofn
 
-        echo -e "job_type = local\njob_prefix = run-1\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = ./asm.fa\ngenome_size = auto\nworkdir = ./01_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-pb" > run-1.cfg;
+        echo -e "job_type = local\njob_prefix = run-1\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = ./asm.fa\ngenome_size = auto\nworkdir = ./01_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-pb" > run-1.cfg
         /usr/bin/time \
             -o ../../../../{output.n1} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-1.cfg;
-        cp 01_rundir/genome.nextpolish.fasta ../../../../{output.out1};
+            -v ../../../../../../benchmarking/NextPolish/nextPolish run-1.cfg
+        cp 01_rundir/genome.nextpolish.fasta ../../../../{output.out1}
 
-        echo -e "job_type = local\njob_prefix = run-2\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 01_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./02_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-pb" > run-2.cfg;
+        echo -e "job_type = local\njob_prefix = run-2\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 01_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./02_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-pb" > run-2.cfg
         /usr/bin/time \
             -o ../../../../{output.n2} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-2.cfg;
-        cp 02_rundir/genome.nextpolish.fasta ../../../../{output.out2};
+            -v ../../../../../../benchmarking/NextPolish/nextPolish run-2.cfg
+        cp 02_rundir/genome.nextpolish.fasta ../../../../{output.out2}
 
-        echo -e "job_type = local\njob_prefix = run-3\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 02_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./03_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-pb" > run-3.cfg;
+        echo -e "job_type = local\njob_prefix = run-3\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 02_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./03_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-pb" > run-3.cfg
         /usr/bin/time \
             -o ../../../../{output.n3} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-3.cfg;
-        cp 03_rundir/genome.nextpolish.fasta ../../../../{output.out3};
+            -v ../../../../../../benchmarking/NextPolish/nextPolish run-3.cfg
+        cp 03_rundir/genome.nextpolish.fasta ../../../../{output.out3}
 
-        echo -e "job_type = local\njob_prefix = run-4\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 03_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./04_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-pb" > run-4.cfg;
+        echo -e "job_type = local\njob_prefix = run-4\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 03_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./04_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-pb" > run-4.cfg
         /usr/bin/time \
             -o ../../../../{output.n4} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-4.cfg;
-        cp 04_rundir/genome.nextpolish.fasta ../../../../{output.out4};
+            -v ../../../../../../benchmarking/NextPolish/nextPolish run-4.cfg
+        cp 04_rundir/genome.nextpolish.fasta ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.shortpol}-long-nextpolish-pacbio-wkdir && cd ../../..
         """
@@ -436,41 +436,41 @@ rule long_racon_pacbio:
     threads: 20
     shell:
         """
-        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-pacbio-wkdir;
-        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-pacbio-wkdir/asm.fa;
-        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-pacbio-wkdir;
+        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-pacbio-wkdir
+        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-pacbio-wkdir/asm.fa
+        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-pacbio-wkdir
 
         /usr/bin/time \
             -o ../../../../{output.m1} \
-            -v minimap2 -x map-pb asm.fa ../../../../{input.pacbio} > align1.paf;
+            -v minimap2 -x map-pb asm.fa ../../../../{input.pacbio} > align1.paf
         /usr/bin/time \
             -o ../../../../{output.r1} \
-            -v racon -u -t 20 ../../../../{input.pacbio} align1.paf asm.fa > out1.fa;
-        cp out1.fa ../../../../{output.out1};
+            -v racon -u -t 20 ../../../../{input.pacbio} align1.paf asm.fa > out1.fa
+        cp out1.fa ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.m2} \
-            -v minimap2 -x map-pb out1.fa ../../../../{input.pacbio} > align2.paf;
+            -v minimap2 -x map-pb out1.fa ../../../../{input.pacbio} > align2.paf
         /usr/bin/time \
             -o ../../../../{output.r2} \
-            -v racon -u -t 20 ../../../../{input.pacbio} align2.paf out1.fa > out2.fa;
-        cp out2.fa ../../../../{output.out2};
+            -v racon -u -t 20 ../../../../{input.pacbio} align2.paf out1.fa > out2.fa
+        cp out2.fa ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.m3} \
-            -v minimap2 -x map-pb out2.fa ../../../../{input.pacbio} > align3.paf;
+            -v minimap2 -x map-pb out2.fa ../../../../{input.pacbio} > align3.paf
         /usr/bin/time \
             -o ../../../../{output.r3} \
-            -v racon -u -t 20 ../../../../{input.pacbio} align3.paf out2.fa > out3.fa;
-        cp out3.fa ../../../../{output.out3};
+            -v racon -u -t 20 ../../../../{input.pacbio} align3.paf out2.fa > out3.fa
+        cp out3.fa ../../../../{output.out3}
 
         /usr/bin/time \
             -o ../../../../{output.m4} \
-            -v minimap2 -x map-pb out3.fa ../../../../{input.pacbio} > align4.paf;
+            -v minimap2 -x map-pb out3.fa ../../../../{input.pacbio} > align4.paf
         /usr/bin/time \
             -o ../../../../{output.r4} \
-            -v racon -u -t 20 ../../../../{input.pacbio} align4.paf out3.fa > out4.fa;
-        cp out4.fa ../../../../{output.out4};
+            -v racon -u -t 20 ../../../../{input.pacbio} align4.paf out3.fa > out4.fa
+        cp out4.fa ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.shortpol}-long-racon-pacbio-wkdir && cd ../../..
         """
@@ -501,29 +501,29 @@ rule long_medrac_comb:
     shell:
         """
         . /usr/local/stow/miniconda3-4.6.14/etc/profile.d/conda.sh
-        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-comb-wkdir;
-        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-comb-wkdir/asm.fa;
-        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-comb-wkdir;
+        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-comb-wkdir
+        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-comb-wkdir/asm.fa
+        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-comb-wkdir
 
         /usr/bin/time \
             -o ../../../../{output.m1} \
-            -v medaka_consensus -i ../../../../{input.nano} -d asm.fa -o run01-dir -t {threads};
-        cp run01-dir/consensus.fasta ../../../../{output.out1};
+            -v medaka_consensus -i ../../../../{input.nano} -d asm.fa -o run01-dir -t {threads}
+        cp run01-dir/consensus.fasta ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.m2} \
-            -v medaka_consensus -i ../../../../{input.nano} -d run01-dir/consensus.fasta -o run02-dir -t {threads};
-        cp run02-dir/consensus.fasta ../../../../{output.out2};
+            -v medaka_consensus -i ../../../../{input.nano} -d run01-dir/consensus.fasta -o run02-dir -t {threads}
+        cp run02-dir/consensus.fasta ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.m3} \
-            -v medaka_consensus -i ../../../../{input.nano} -d run02-dir/consensus.fasta -o run03-dir -t {threads};
-        cp run03-dir/consensus.fasta ../../../../{output.out3};
+            -v medaka_consensus -i ../../../../{input.nano} -d run02-dir/consensus.fasta -o run03-dir -t {threads}
+        cp run03-dir/consensus.fasta ../../../../{output.out3}
 
         /usr/bin/time \
             -o ../../../../{output.m4} \
-            -v medaka_consensus -i ../../../../{input.nano} -d run03-dir/consensus.fasta -o run04-dir -t {threads};
-        cp run04-dir/consensus.fasta ../../../../{output.out4};
+            -v medaka_consensus -i ../../../../{input.nano} -d run03-dir/consensus.fasta -o run04-dir -t {threads}
+        cp run04-dir/consensus.fasta ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.shortpol}-long-medrac-comb-wkdir && cd ../../..
         """
@@ -551,37 +551,37 @@ rule long_nextpolish_comb:
     threads: 20
     shell:
         """
-        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-comb-wkdir;
-        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-comb-wkdir/asm.fa;
-        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-comb-wkdir;
+        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-comb-wkdir
+        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-comb-wkdir/asm.fa
+        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-comb-wkdir
 
-        zcat ../../../../{input.nano} ../../../../{input.pacbio} | pigz -c > combined.fastq.gz
+        cat ../../../../{input.nano} ../../../../{input.pacbio} > combined.fastq.gz
 
-        echo -e "combined.fastq.gz" > lgs.fofn;
+        echo -e "combined.fastq.gz" > lgs.fofn
 
-        echo -e "job_type = local\njob_prefix = run-1\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = ./asm.fa\ngenome_size = auto\nworkdir = ./01_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-1.cfg;
+        echo -e "job_type = local\njob_prefix = run-1\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = ./asm.fa\ngenome_size = auto\nworkdir = ./01_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-1.cfg
         /usr/bin/time \
             -o ../../../../{output.n1} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-1.cfg;
-        cp 01_rundir/genome.nextpolish.fasta ../../../../{output.out1};
+            -v ../../../../../../benchmarking/NextPolish/nextPolish run-1.cfg
+        cp 01_rundir/genome.nextpolish.fasta ../../../../{output.out1}
 
-        echo -e "job_type = local\njob_prefix = run-2\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 01_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./02_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-2.cfg;
+        echo -e "job_type = local\njob_prefix = run-2\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 01_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./02_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-2.cfg
         /usr/bin/time \
             -o ../../../../{output.n2} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-2.cfg;
-        cp 02_rundir/genome.nextpolish.fasta ../../../../{output.out2};
+            -v ../../../../../../benchmarking/NextPolish/nextPolish run-2.cfg
+        cp 02_rundir/genome.nextpolish.fasta ../../../../{output.out2}
 
-        echo -e "job_type = local\njob_prefix = run-3\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 02_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./03_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-3.cfg;
+        echo -e "job_type = local\njob_prefix = run-3\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 02_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./03_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-3.cfg
         /usr/bin/time \
             -o ../../../../{output.n3} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-3.cfg;
-        cp 03_rundir/genome.nextpolish.fasta ../../../../{output.out3};
+            -v ../../../../../../benchmarking/NextPolish/nextPolish run-3.cfg
+        cp 03_rundir/genome.nextpolish.fasta ../../../../{output.out3}
 
-        echo -e "job_type = local\njob_prefix = run-4\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 03_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./04_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-4.cfg;
+        echo -e "job_type = local\njob_prefix = run-4\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 03_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./04_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-4.cfg
         /usr/bin/time \
             -o ../../../../{output.n4} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-4.cfg;
-        cp 04_rundir/genome.nextpolish.fasta ../../../../{output.out4};
+            -v ../../../../../../benchmarking/NextPolish/nextPolish run-4.cfg
+        cp 04_rundir/genome.nextpolish.fasta ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.shortpol}-long-nextpolish-comb-wkdir && cd ../../..
         """
@@ -614,43 +614,43 @@ rule long_racon_comb:
     threads: 20
     shell:
         """
-        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-comb-wkdir;
-        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-comb-wkdir/asm.fa;
-        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-comb-wkdir;
+        mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-comb-wkdir
+        cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-comb-wkdir/asm.fa
+        cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-racon-comb-wkdir
 
-        zcat ../../../../{input.nano} ../../../../{input.pacbio} | pigz -c > combined.fastq.gz
+        cat ../../../../{input.nano} ../../../../{input.pacbio} > combined.fastq.gz
 
         /usr/bin/time \
             -o ../../../../{output.m1} \
-            -v minimap2 -x map-ont asm.fa combined.fastq.gz > align1.paf;
+            -v minimap2 -x map-ont asm.fa combined.fastq.gz > align1.paf
         /usr/bin/time \
             -o ../../../../{output.r1} \
-            -v racon -u -t 20 combined.fastq.gz align1.paf asm.fa > out1.fa;
-        cp out1.fa ../../../../{output.out1};
+            -v racon -u -t 20 combined.fastq.gz align1.paf asm.fa > out1.fa
+        cp out1.fa ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.m2} \
-            -v minimap2 -x map-ont out1.fa combined.fastq.gz > align2.paf;
+            -v minimap2 -x map-ont out1.fa combined.fastq.gz > align2.paf
         /usr/bin/time \
             -o ../../../../{output.r2} \
-            -v racon -u -t 20 combined.fastq.gz align2.paf out1.fa > out2.fa;
-        cp out2.fa ../../../../{output.out2};
+            -v racon -u -t 20 combined.fastq.gz align2.paf out1.fa > out2.fa
+        cp out2.fa ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.m3} \
-            -v minimap2 -x map-ont out2.fa combined.fastq.gz > align3.paf;
+            -v minimap2 -x map-ont out2.fa combined.fastq.gz > align3.paf
         /usr/bin/time \
             -o ../../../../{output.r3} \
-            -v racon -u -t 20 combined.fastq.gz align3.paf out2.fa > out3.fa;
-        cp out3.fa ../../../../{output.out3};
+            -v racon -u -t 20 combined.fastq.gz align3.paf out2.fa > out3.fa
+        cp out3.fa ../../../../{output.out3}
 
         /usr/bin/time \
             -o ../../../../{output.m4} \
-            -v minimap2 -x map-ont out3.fa combined.fastq.gz > align4.paf;
+            -v minimap2 -x map-ont out3.fa combined.fastq.gz > align4.paf
         /usr/bin/time \
             -o ../../../../{output.r4} \
-            -v racon -u -t 20 combined.fastq.gz align4.paf out3.fa > out4.fa;
-        cp out4.fa ../../../../{output.out4};
+            -v racon -u -t 20 combined.fastq.gz align4.paf out3.fa > out4.fa
+        cp out4.fa ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.shortpol}-long-racon-comb-wkdir && cd ../../..
         """
@@ -702,61 +702,61 @@ rule hyb_hypo_nano:
             -o ../../../../{output.ms1} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} asm.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out-s1.bam -@ {threads} -; \
-                samtools index out-s1.bam; ';
+                samtools index out-s1.bam'
         /usr/bin/time \
             -o ../../../../{output.ml1} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax map-ont -t {threads} asm.fa ../../../../{input.nano} | samtools view -Sb - | samtools sort -o out-n1.bam -@ {threads} -; \
-                samtools index out-n1.bam; ';
+                samtools index out-n1.bam'
         /usr/bin/time \
             -o ../../../../{output.h1} \
-            -v hypo -d asm.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s1.bam -B out-n1.bam -p 80 -t {threads} -o out1.fa;
-        cp out1.fa ../../../../{output.out1};
+            -v hypo -d asm.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s1.bam -B out-n1.bam -p 80 -t {threads} -o out1.fa
+        cp out1.fa ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.ms2} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} out1.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out-s2.bam -@ {threads} -; \
-                samtools index out-s2.bam; ';
+                samtools index out-s2.bam'
         /usr/bin/time \
             -o ../../../../{output.ml2} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax map-ont -t {threads} out1.fa ../../../../{input.nano} | samtools view -Sb - | samtools sort -o out-n2.bam -@ {threads} -; \
-                samtools index out-n2.bam; ';
+                samtools index out-n2.bam'
         /usr/bin/time \
             -o ../../../../{output.h2} \
-            -v hypo -d out1.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s2.bam -B out-n2.bam -p 80 -t {threads} -o out2.fa;
-        cp out2.fa ../../../../{output.out2};
+            -v hypo -d out1.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s2.bam -B out-n2.bam -p 80 -t {threads} -o out2.fa
+        cp out2.fa ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.ms3} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} out2.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out-s3.bam -@ {threads} -; \
-                samtools index out-s3.bam; ';
+                samtools index out-s3.bam'
         /usr/bin/time \
             -o ../../../../{output.ml3} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax map-ont -t {threads} out2.bam ../../../../{input.nano} | samtools view -Sb - | samtools sort -o out-n3.bam -@ {threads} -; \
-                samtools index out-n3.bam; ';
+                samtools index out-n3.bam'
         /usr/bin/time \
             -o ../../../../{output.h3} \
-            -v hypo -d out2.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s3.bam -B out-n3.bam -p 80 -t {threads} -o out3.fa;
-        cp out3.fa ../../../../{output.out3};
+            -v hypo -d out2.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s3.bam -B out-n3.bam -p 80 -t {threads} -o out3.fa
+        cp out3.fa ../../../../{output.out3}
 
         /usr/bin/time \
             -o ../../../../{output.ms4} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} out3.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out-s4.bam -@ {threads} -; \
-                samtools index out-s4.bam; ';
+                samtools index out-s4.bam'
         /usr/bin/time \
             -o ../../../../{output.ml4} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax map-ont -t {threads} out3.fa ../../../../{input.nano} | samtools view -Sb - | samtools sort -o out-n4.bam -@ {threads} -; \
-                samtools index out-n4.bam; ';
+                samtools index out-n4.bam'
         /usr/bin/time \
             -o ../../../../{output.h4} \
-            -v hypo -d out3.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s4.bam -B out-n4.bam -p 80 -t {threads} -o out4.fa;
-        cp out4.fa ../../../../{output.out4};
+            -v hypo -d out3.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s4.bam -B out-n4.bam -p 80 -t {threads} -o out4.fa
+        cp out4.fa ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}-scaffold-hyb-hypo-nano-wkdir && cd ../../..
         """
@@ -806,61 +806,61 @@ rule hyb_hypo_pacbio:
             -o ../../../../{output.ms1} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} asm.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out-s1.bam -@ {threads} -; \
-                samtools index out-s1.bam; ';
+                samtools index out-s1.bam'
         /usr/bin/time \
             -o ../../../../{output.ml1} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax map-pb -t {threads} asm.fa ../../../../{input.pacbio} | samtools view -Sb - | samtools sort -o out-p1.bam -@ {threads} -; \
-                samtools index out-p1.bam; ';
+                samtools index out-p1.bam'
         /usr/bin/time \
             -o ../../../../{output.h1} \
-            -v hypo -d asm.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s1.bam -B out-p1.bam -p 80 -t {threads} -o out1.fa;
-        cp out1.fa ../../../../{output.out1};
+            -v hypo -d asm.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s1.bam -B out-p1.bam -p 80 -t {threads} -o out1.fa
+        cp out1.fa ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.ms2} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} out1.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out-s2.bam -@ {threads} -; \
-                samtools index out-s2.bam; ';
+                samtools index out-s2.bam'
         /usr/bin/time \
             -o ../../../../{output.ml2} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax map-pb -t {threads} out1.fa ../../../../{input.pacbio} | samtools view -Sb - | samtools sort -o out-p2.bam -@ {threads} -; \
-                samtools index out-p2.bam; ';
+                samtools index out-p2.bam'
         /usr/bin/time \
             -o ../../../../{output.h2} \
-            -v hypo -d out1.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s2.bam -B out-p2.bam -p 80 -t {threads} -o out2.fa;
-        cp out2.fa ../../../../{output.out2};
+            -v hypo -d out1.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s2.bam -B out-p2.bam -p 80 -t {threads} -o out2.fa
+        cp out2.fa ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.ms3} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} out2.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out-s3.bam -@ {threads} -; \
-                samtools index out-s3.bam; ';
+                samtools index out-s3.bam'
         /usr/bin/time \
             -o ../../../../{output.ml3} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax map-pb -t {threads} out2.bam ../../../../{input.pacbio} | samtools view -Sb - | samtools sort -o out-p3.bam -@ {threads} -; \
-                samtools index out-p3.bam; ';
+                samtools index out-p3.bam'
         /usr/bin/time \
             -o ../../../../{output.h3} \
-            -v hypo -d out2.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s3.bam -B out-p3.bam -p 80 -t {threads} -o out3.fa;
-        cp out3.fa ../../../../{output.out3};
+            -v hypo -d out2.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s3.bam -B out-p3.bam -p 80 -t {threads} -o out3.fa
+        cp out3.fa ../../../../{output.out3}
 
         /usr/bin/time \
             -o ../../../../{output.ms4} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} out3.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out-s4.bam -@ {threads} -; \
-                samtools index out-s4.bam; ';
+                samtools index out-s4.bam'
         /usr/bin/time \
             -o ../../../../{output.ml4} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax map-pb -t {threads} out3.fa ../../../../{input.pacbio} | samtools view -Sb - | samtools sort -o out-p4.bam -@ {threads} -; \
-                samtools index out-p4.bam; ';
+                samtools index out-p4.bam'
         /usr/bin/time \
             -o ../../../../{output.h4} \
-            -v hypo -d out3.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s4.bam -B out-p4.bam -p 80 -t {threads} -o out4.fa;
-        cp out4.fa ../../../../{output.out4};
+            -v hypo -d out3.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s4.bam -B out-p4.bam -p 80 -t {threads} -o out4.fa
+        cp out4.fa ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}-scaffold-hyb-hypo-pacbio-wkdir && cd ../../..
         """
@@ -905,68 +905,68 @@ rule hyb_hypo_hyb:
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-scaffold-hyb-hypo-hyb-wkdir
         cp ../../../../{input.asm} asm.fa;
 
-        zcat ../../../../{input.nano} ../../../../{input.pacbio} | pigz -c > combined.fastq.gz
-        echo -e '../../../../{input.in1}\n../../../../{input.in2}' > input.fofn;
+        cat ../../../../{input.nano} ../../../../{input.pacbio} > combined.fastq.gz
+        echo -e '../../../../{input.in1}\n../../../../{input.in2}' > input.fofn
 
         /usr/bin/time \
             -o ../../../../{output.ms1} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} asm.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out-s1.bam -@ {threads} -; \
-                samtools index out-s1.bam; ';
+                samtools index out-s1.bam'
         /usr/bin/time \
             -o ../../../../{output.ml1} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax map-ont -t {threads} asm.fa combined.fastq.gz | samtools view -Sb - | samtools sort -o out-h1.bam -@ {threads} -; \
-                samtools index out-h1.bam; ';
+                samtools index out-h1.bam'
         /usr/bin/time \
             -o ../../../../{output.h1} \
-            -v hypo -d asm.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s1.bam -B out-h1.bam -p 80 -t {threads} -o out1.fa;
-        cp out1.fa ../../../../{output.out1};
+            -v hypo -d asm.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s1.bam -B out-h1.bam -p 80 -t {threads} -o out1.fa
+        cp out1.fa ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.ms2} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} out1.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out-s2.bam -@ {threads} -; \
-                samtools index out-s2.bam; ';
+                samtools index out-s2.bam'
         /usr/bin/time \
             -o ../../../../{output.ml2} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax map-ont -t {threads} out1.fa combined.fastq.gz | samtools view -Sb - | samtools sort -o out-h2.bam -@ {threads} -; \
-                samtools index out-h2.bam; ';
+                samtools index out-h2.bam'
         /usr/bin/time \
             -o ../../../../{output.h2} \
-            -v hypo -d out1.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s2.bam -B out-h2.bam -p 80 -t {threads} -o out2.fa;
-        cp out2.fa ../../../../{output.out2};
+            -v hypo -d out1.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s2.bam -B out-h2.bam -p 80 -t {threads} -o out2.fa
+        cp out2.fa ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.ms3} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} out2.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out-s3.bam -@ {threads} -; \
-                samtools index out-s3.bam; ';
+                samtools index out-s3.bam'
         /usr/bin/time \
             -o ../../../../{output.ml3} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax map-ont -t {threads} out2.bam combined.fastq.gz | samtools view -Sb - | samtools sort -o out-h3.bam -@ {threads} -; \
-                samtools index out-h3.bam; ';
+                samtools index out-h3.bam'
         /usr/bin/time \
             -o ../../../../{output.h3} \
-            -v hypo -d out2.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s3.bam -B out-h3.bam -p 80 -t {threads} -o out3.fa;
-        cp out3.fa ../../../../{output.out3};
+            -v hypo -d out2.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s3.bam -B out-h3.bam -p 80 -t {threads} -o out3.fa
+        cp out3.fa ../../../../{output.out3}
 
         /usr/bin/time \
             -o ../../../../{output.ms4} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax sr -t {threads} out3.fa ../../../../{input.in1} ../../../../{input.in2} | samtools view -Sb - | samtools sort -o out-s4.bam -@ {threads} -; \
-                samtools index out-s4.bam; ';
+                samtools index out-s4.bam'
         /usr/bin/time \
             -o ../../../../{output.ml4} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax map-ont -t {threads} out3.fa combined.fastq.gz | samtools view -Sb - | samtools sort -o out-h4.bam -@ {threads} -; \
-                samtools index out-h4.bam; ';
+                samtools index out-h4.bam'
         /usr/bin/time \
             -o ../../../../{output.h4} \
-            -v hypo -d out3.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s4.bam -B out-h4.bam -p 80 -t {threads} -o out4.fa;
-        cp out4.fa ../../../../{output.out4};
+            -v hypo -d out3.fa -r @input.fofn -s {config[genomesize]} -c {config[ill-cov]} -b out-s4.bam -B out-h4.bam -p 80 -t {threads} -o out4.fa
+        cp out4.fa ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}-scaffold-hyb-hypo-hyb-wkdir && cd ../../..
         """
@@ -1003,37 +1003,37 @@ rule long_hypo_corr_nano:
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-scaffold-long-hypo-corr-nano-wkdir
         cp ../../../../{input.asm} asm.fa;
 
-        echo -e '../../../../{input.nano}' > input.fofn;
+        echo -e '../../../../{input.nano}' > input.fofn
 
         /usr/bin/time \
             -o ../../../../{output.m1} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax asm20 -t {threads} asm.fa ../../../../{input.nano} | samtools view -Sb - | samtools sort -o out1.bam -@ {threads} -; \
-                samtools index out1.bam; ';
+                samtools index out1.bam'
         /usr/bin/time \
             -o ../../../../{output.h1} \
-            -v hypo -d asm.fa -r @input.fofn -s {config[genomesize]} -c {config[nano-corr-cov]} -b out1.bam -p 80 -t {threads} -o out1.fa;
-        cp out1.fa ../../../../{output.out1};
+            -v hypo -d asm.fa -r @input.fofn -s {config[genomesize]} -c {config[nano-corr-cov]} -b out1.bam -p 80 -t {threads} -o out1.fa
+        cp out1.fa ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.m2} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax asm20 -t {threads} out1.fa ../../../../{input.nano} | samtools view -Sb - | samtools sort -o out2.bam -@ {threads} -; \
-                samtools index out2.bam; ';
+                samtools index out2.bam'
         /usr/bin/time \
             -o ../../../../{output.h2} \
-            -v hypo -d out1.fa -r @input.fofn -s {config[genomesize]} -c {config[nano-corr-cov]} -b out2.bam -p 80 -t {threads} -o out2.fa;
-        cp out2.fa ../../../../{output.out2};
+            -v hypo -d out1.fa -r @input.fofn -s {config[genomesize]} -c {config[nano-corr-cov]} -b out2.bam -p 80 -t {threads} -o out2.fa
+        cp out2.fa ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.m3} \
             -v /bin/bash -c \
                 'minimap2 --secondary=no --MD -ax asm20 -t {threads} out2.fa ../../../../{input.nano} | samtools view -Sb - | samtools sort -o out3.bam -@ {threads} -; \
-                samtools index out3.bam; ';
+                samtools index out3.bam'
         /usr/bin/time \
             -o ../../../../{output.h3} \
-            -v hypo -d out2.fa -r @input.fofn -s {config[genomesize]} -c {config[nano-corr-cov]} -b out3.bam -p 80 -t {threads} -o out3.fa;
-        cp out3.fa ../../../../{output.out3};
+            -v hypo -d out2.fa -r @input.fofn -s {config[genomesize]} -c {config[nano-corr-cov]} -b out3.bam -p 80 -t {threads} -o out3.fa
+        cp out3.fa ../../../../{output.out3}
 
         cd .. && rm -rf {wildcards.asm}-scaffold-long-hypo-corr-nano-wkdir && cd ../../..
         """
