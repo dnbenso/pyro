@@ -261,7 +261,8 @@ rule short_polca:
     threads: 20
     shell:
         """
-        #module load bwa/0.7.15
+        . /usr/local/stow/miniconda3-4.6.14/etc/profile.d/conda.sh
+        conda activate masurca
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-polca-wkdir
         cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-polca-wkdir/asm.fa
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.longpol}-short-polca-wkdir
@@ -280,6 +281,8 @@ rule short_polca:
             -o ../../../../{output.p3} \
             -v bash polca.sh -a asm.fa.PolcaCorrected.fa.PolcaCorrected.fa -r '../../../../{input.in1} ../../../../{input.in2}' -t {threads}
         cp asm.fa.PolcaCorrected.fa.PolcaCorrected.fa.PolcaCorrected.fa ../../../../{output.out3}
+
+        conda deactivate
 
         cd .. && rm -rf {wildcards.asm}{wildcards.longpol}-short-polca-wkdir && cd ../../..
         """
