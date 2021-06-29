@@ -15,7 +15,7 @@ rule fastqc:
     output:
         "reads/{reads}/{readtype}_fastqc.html",
         temp("reads/{reads}/{readtype}_fastqc.zip")
-    threads: 20
+    threads: 2
     shell:
         "fastqc -t {threads} {input.i1}"
 
