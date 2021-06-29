@@ -56,7 +56,7 @@ rule trim_long:
     threads: 20
     shell:
         """
-        filtlong --min_length 1000 --keep_percent 90 {input.pre} | pigz > {output}"
+        filtlong --min_length 1000 --keep_percent 90 {input.pre} | pigz > {output}
         """
 
 rule combine_ill:
