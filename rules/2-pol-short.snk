@@ -269,17 +269,17 @@ rule short_polca:
 
         /usr/bin/time \
             -o ../../../../{output.p1} \
-            -v bash polca.sh -a asm.fa -r '../../../../{input.in1} ../../../../{input.in2}' -t {threads}
+            -v polca.sh -a asm.fa -r '../../../../{input.in1} ../../../../{input.in2}' -t {threads}
         cp asm.fa.PolcaCorrected.fa ../../../../{output.out1}
 
         /usr/bin/time \
             -o ../../../../{output.p2} \
-            -v bash polca.sh -a asm.fa.PolcaCorrected.fa -r '../../../../{input.in1} ../../../../{input.in2}' -t {threads}
+            -v polca.sh -a asm.fa.PolcaCorrected.fa -r '../../../../{input.in1} ../../../../{input.in2}' -t {threads}
         cp asm.fa.PolcaCorrected.fa.PolcaCorrected.fa ../../../../{output.out2}
 
         /usr/bin/time \
             -o ../../../../{output.p3} \
-            -v bash polca.sh -a asm.fa.PolcaCorrected.fa.PolcaCorrected.fa -r '../../../../{input.in1} ../../../../{input.in2}' -t {threads}
+            -v polca.sh -a asm.fa.PolcaCorrected.fa.PolcaCorrected.fa -r '../../../../{input.in1} ../../../../{input.in2}' -t {threads}
         cp asm.fa.PolcaCorrected.fa.PolcaCorrected.fa.PolcaCorrected.fa ../../../../{output.out3}
 
         conda deactivate
