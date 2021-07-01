@@ -81,6 +81,7 @@ rule long_nextpolish_nano:
     threads: 20
     shell:
         """
+        export PYTHONPATH=/usr/local/lib/python2.7/site-packages/nextpolish
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-nano-wkdir
         cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-nano-wkdir/asm.fa
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-nano-wkdir
@@ -90,25 +91,25 @@ rule long_nextpolish_nano:
         echo -e "job_type = local\njob_prefix = run-1\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = ./asm.fa\ngenome_size = auto\nworkdir = ./01_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-1.cfg;
         /usr/bin/time \
             -o ../../../../{output.n1} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-1.cfg
+            -v nextPolish run-1.cfg
         cp 01_rundir/genome.nextpolish.fasta ../../../../{output.out1}
 
         echo -e "job_type = local\njob_prefix = run-2\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 01_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./02_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-2.cfg;
         /usr/bin/time \
             -o ../../../../{output.n2} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-2.cfg
+            -v nextPolish run-2.cfg
         cp 02_rundir/genome.nextpolish.fasta ../../../../{output.out2}
 
         echo -e "job_type = local\njob_prefix = run-3\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 02_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./03_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-3.cfg;
         /usr/bin/time \
             -o ../../../../{output.n3} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-3.cfg
+            -v nextPolish run-3.cfg
         cp 03_rundir/genome.nextpolish.fasta ../../../../{output.out3}
 
         echo -e "job_type = local\njob_prefix = run-4\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 03_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./04_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-4.cfg;
         /usr/bin/time \
             -o ../../../../{output.n4} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-4.cfg
+            -v nextPolish run-4.cfg
         cp 04_rundir/genome.nextpolish.fasta ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.shortpol}-long-nextpolish-nano-wkdir && cd ../../..
@@ -376,6 +377,7 @@ rule long_nextpolish_pacbio:
     threads: 20
     shell:
         """
+        export PYTHONPATH=/usr/local/lib/python2.7/site-packages/nextpolish
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-pacbio-wkdir
         cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-pacbio-wkdir/asm.fa
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-pacbio-wkdir
@@ -385,25 +387,25 @@ rule long_nextpolish_pacbio:
         echo -e "job_type = local\njob_prefix = run-1\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = ./asm.fa\ngenome_size = auto\nworkdir = ./01_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-pb" > run-1.cfg
         /usr/bin/time \
             -o ../../../../{output.n1} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-1.cfg
+            -v nextPolish run-1.cfg
         cp 01_rundir/genome.nextpolish.fasta ../../../../{output.out1}
 
         echo -e "job_type = local\njob_prefix = run-2\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 01_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./02_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-pb" > run-2.cfg
         /usr/bin/time \
             -o ../../../../{output.n2} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-2.cfg
+            -v nextPolish run-2.cfg
         cp 02_rundir/genome.nextpolish.fasta ../../../../{output.out2}
 
         echo -e "job_type = local\njob_prefix = run-3\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 02_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./03_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-pb" > run-3.cfg
         /usr/bin/time \
             -o ../../../../{output.n3} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-3.cfg
+            -v nextPolish run-3.cfg
         cp 03_rundir/genome.nextpolish.fasta ../../../../{output.out3}
 
         echo -e "job_type = local\njob_prefix = run-4\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 03_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./04_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-pb" > run-4.cfg
         /usr/bin/time \
             -o ../../../../{output.n4} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-4.cfg
+            -v nextPolish run-4.cfg
         cp 04_rundir/genome.nextpolish.fasta ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.shortpol}-long-nextpolish-pacbio-wkdir && cd ../../..
@@ -551,6 +553,7 @@ rule long_nextpolish_comb:
     threads: 20
     shell:
         """
+        export PYTHONPATH=/usr/local/lib/python2.7/site-packages/nextpolish
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-comb-wkdir
         cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-comb-wkdir/asm.fa
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-comb-wkdir
@@ -562,25 +565,25 @@ rule long_nextpolish_comb:
         echo -e "job_type = local\njob_prefix = run-1\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = ./asm.fa\ngenome_size = auto\nworkdir = ./01_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-1.cfg
         /usr/bin/time \
             -o ../../../../{output.n1} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-1.cfg
+            -v nextPolish run-1.cfg
         cp 01_rundir/genome.nextpolish.fasta ../../../../{output.out1}
 
         echo -e "job_type = local\njob_prefix = run-2\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 01_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./02_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-2.cfg
         /usr/bin/time \
             -o ../../../../{output.n2} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-2.cfg
+            -v nextPolish run-2.cfg
         cp 02_rundir/genome.nextpolish.fasta ../../../../{output.out2}
 
         echo -e "job_type = local\njob_prefix = run-3\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 02_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./03_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-3.cfg
         /usr/bin/time \
             -o ../../../../{output.n3} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-3.cfg
+            -v nextPolish run-3.cfg
         cp 03_rundir/genome.nextpolish.fasta ../../../../{output.out3}
 
         echo -e "job_type = local\njob_prefix = run-4\ntask = 5\nrewrite = yes\nmultithread_jobs = 5\nparallel_jobs = 4\ngenome = 03_rundir/genome.nextpolish.fasta\ngenome_size = auto\nworkdir = ./04_rundir\npolish_options = -p {{multithread_jobs}}\nlgs_fofn = lgs.fofn\nlgs_minimap2_options = -x map-ont" > run-4.cfg
         /usr/bin/time \
             -o ../../../../{output.n4} \
-            -v ../../../../../../benchmarking/NextPolish/nextPolish run-4.cfg
+            -v nextPolish run-4.cfg
         cp 04_rundir/genome.nextpolish.fasta ../../../../{output.out4}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.shortpol}-long-nextpolish-comb-wkdir && cd ../../..
