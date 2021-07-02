@@ -81,7 +81,6 @@ rule long_nextpolish_nano:
     threads: 20
     shell:
         """
-        export PYTHONPATH=/usr/local/lib/python2.7/site-packages/nextpolish
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-nano-wkdir
         cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-nano-wkdir/asm.fa
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-nano-wkdir
@@ -377,7 +376,6 @@ rule long_nextpolish_pacbio:
     threads: 20
     shell:
         """
-        export PYTHONPATH=/usr/local/lib/python2.7/site-packages/nextpolish
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-pacbio-wkdir
         cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-pacbio-wkdir/asm.fa
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-pacbio-wkdir
@@ -553,7 +551,6 @@ rule long_nextpolish_comb:
     threads: 20
     shell:
         """
-        export PYTHONPATH=/usr/local/lib/python2.7/site-packages/nextpolish
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-comb-wkdir
         cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-comb-wkdir/asm.fa
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-nextpolish-comb-wkdir
