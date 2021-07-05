@@ -736,7 +736,7 @@ rule hyb_hypo_nano:
         /usr/bin/time \
             -o ../../../../{output.ml3} \
             -v /bin/bash -c \
-                'minimap2 --secondary=no --MD -ax map-ont -t {threads} out2.bam ../../../../{input.nano} | samtools view -Sb - | samtools sort -o out-n3.bam -@ {threads} -; \
+                'minimap2 --secondary=no --MD -ax map-ont -t {threads} out2.fa ../../../../{input.nano} | samtools view -Sb - | samtools sort -o out-n3.bam -@ {threads} -; \
                 samtools index out-n3.bam'
         /usr/bin/time \
             -o ../../../../{output.h3} \
@@ -840,7 +840,7 @@ rule hyb_hypo_pacbio:
         /usr/bin/time \
             -o ../../../../{output.ml3} \
             -v /bin/bash -c \
-                'minimap2 --secondary=no --MD -ax map-pb -t {threads} out2.bam ../../../../{input.pacbio} | samtools view -Sb - | samtools sort -o out-p3.bam -@ {threads} -; \
+                'minimap2 --secondary=no --MD -ax map-pb -t {threads} out2.fa ../../../../{input.pacbio} | samtools view -Sb - | samtools sort -o out-p3.bam -@ {threads} -; \
                 samtools index out-p3.bam'
         /usr/bin/time \
             -o ../../../../{output.h3} \
