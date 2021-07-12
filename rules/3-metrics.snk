@@ -21,7 +21,7 @@ rule estimate_read_length:
     shell:
         """
         mkdir -p 3-metrics/size
-        get-avg-size.sh {input.i1} {input.i2} > {output.lenest}
+        # bash scripts/get-avg-size.sh {input.i1} {input.i2} > {output.lenest}
         """
         
 
@@ -47,119 +47,9 @@ rule estimate_genome_size_ill:
 
         Rscript ../../../../benchmarking/genomescope/genomescope.R ../../{output.histo} 21 $readlen gs-output 1000 > ../../{output.gs}
 
-        get-genome-size.py ../../{output.gs} > ../../{output.est}
+        #python ../../scripts/get-genome-size.py ../../{output.gs} > ../../{output.est}
         """
         
-
-
-##########
-# dnAQET #
-##########
-
-rule dnaqet_model:
-    input:
-        ref="reference/ref.fa"
-    output:
-        "reference/dnaqet-model/model.bin"
-    threads: 20
-    shell:
-        "java -jar ../../benchmarking/dnAQET/dnAQET.jar model -r {input.ref} -t {threads} -d reference/dnaqet-model/"
-
-rule dnaqet_evaluate_asm:
-    input:
-        ref="reference/ref.fa",
-        model="reference/dnaqet-model/model.bin",
-        asm="1-assembly/{techs}/{asm}/{asm}-scaffold.fa"
-    output:
-        stat="3-metrics/dnaqet/{techs}/{asm}/{asm}-scaffold/reports/assembly.stat"
-    log:
-        "logs/{techs}/dnaqet/{asm}/{asm}-scaffold-dnaqet.log"
-    benchmark:
-        "benchmarks/{techs}/dnaqet/{asm}/{asm}-scaffold-dnaqet-benchmark.txt"
-    threads: 5
-    shell:
-        """
-        java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
-            -f {input.asm} -r {input.ref} \
-            -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-scaffold/ \
-            -t {threads} -k {input.model}
-        """
-
-rule dnaqet_evaluate_pol_i:
-    input:
-        ref="reference/ref.fa",
-        model="reference/dnaqet-model/model.bin",
-        asm1="2-polishing/{techs}/{asm}/{asm}-{sround}-1.fa",
-        asm2="2-polishing/{techs}/{asm}/{asm}-{sround}-2.fa",
-        asm3="2-polishing/{techs}/{asm}/{asm}-{sround}-3.fa"
-    output:
-        stat1="3-metrics/dnaqet/{techs}/{asm}/{asm}-{sround}-1/reports/assembly.stat",
-        stat2="3-metrics/dnaqet/{techs}/{asm}/{asm}-{sround}-2/reports/assembly.stat",
-        stat3="3-metrics/dnaqet/{techs}/{asm}/{asm}-{sround}-3/reports/assembly.stat"
-    log:
-        "logs/{techs}/dnaqet/{asm}/{asm}-{sround}-dnaqet.log"
-    benchmark:
-        "benchmarks/{techs}/dnaqet/{asm}/{asm}-{sround}-dnaqet-benchmark.txt"
-    threads: 5
-    shell:
-        """
-        java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
-            -f {input.asm1} -r {input.ref} \
-            -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.sround}-1/ \
-            -t {threads} -k {input.model}
-
-        java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
-            -f {input.asm2} -r {input.ref} \
-            -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.sround}-2/ \
-            -t {threads} -k {input.model}
-
-        java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
-            -f {input.asm3} -r {input.ref} \
-            -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.sround}-3/ \
-            -t {threads} -k {input.model}
-        """
-
-rule dnaqet_evaluate_pol_j:
-    input:
-        ref="reference/ref.fa",
-        model="reference/dnaqet-model/model.bin",
-        asm1="2-polishing/{techs}/{asm}/{asm}-{lround}-1.fa",
-        asm2="2-polishing/{techs}/{asm}/{asm}-{lround}-2.fa",
-        asm3="2-polishing/{techs}/{asm}/{asm}-{lround}-3.fa",
-        asm4="2-polishing/{techs}/{asm}/{asm}-{lround}-4.fa"
-    output:
-        stat1="3-metrics/dnaqet/{techs}/{asm}/{asm}-{lround}-1/reports/assembly.stat",
-        stat2="3-metrics/dnaqet/{techs}/{asm}/{asm}-{lround}-2/reports/assembly.stat",
-        stat3="3-metrics/dnaqet/{techs}/{asm}/{asm}-{lround}-3/reports/assembly.stat",
-        stat4="3-metrics/dnaqet/{techs}/{asm}/{asm}-{lround}-4/reports/assembly.stat"
-    log:
-        "logs/{techs}/dnaqet/{asm}/{asm}-{lround}-dnaqet.log"
-    benchmark:
-        "benchmarks/{techs}/dnaqet/{asm}/{asm}-{lround}-dnaqet-benchmark.txt"
-    threads: 20
-    shell:
-        """
-        java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
-            -f {input.asm1} -r {input.ref} \
-            -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.lround}-1/ \
-            -t {threads} -k {input.model}
-
-        java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
-            -f {input.asm2} -r {input.ref} \
-            -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.lround}-2/ \
-            -t {threads} -k {input.model}
-
-        java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
-            -f {input.asm3} -r {input.ref} \
-            -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.lround}-3/ \
-            -t {threads} -k {input.model}
-
-        java -jar ../../benchmarking/dnAQET/dnAQET.jar evaluate \
-            -f {input.asm4} -r {input.ref} \
-            -d 3-metrics/dnaqet/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.lround}-4/ \
-            -t {threads} -k {input.model}
-        """
-
 #########
 # Quast #
 #########
@@ -996,132 +886,6 @@ rule quast_hyb_hyb:
             -1 {input.i1} -2 {input.i2} --nanopore {input.nano} --pacbio {input.pacbio} {input.hhasms}
         """
 
-################
-# RepeatMasker #
-################
-
-rule repeatmasker_asm:
-    input:
-        asm="1-assembly/{techs}/{asm}/{asm}-scaffold.fa"
-    output:
-        table="3-metrics/repeatmasker/{techs}/{asm}/{asm}-scaffold.tbl"
-    log:
-        "logs/{techs}/repeatmasker/{asm}/{asm}-scaffold-repeatmasker.log"
-    benchmark:
-        "benchmarks/{techs}/repeatmasker/{asm}/{asm}-scaffold-repeatmasker-benchmark.txt"
-    threads: 20
-    shell:
-        """
-        mkdir -p 3-metrics/repeatmasker/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-scaffold-wkdir
-        cd 3-metrics/repeatmasker/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-scaffold-wkdir
-
-        RepeatMasker \
-            -species {config[rm-species]} \
-            -parallel {threads} -q \
-            -dir ./ ../../../../../{input.asm};
-
-        cp {wildcards.asm}-scaffold.fa.tbl ../../../../../{output.table};
-        cd ../../../../..
-        rm -rf 3-metrics/repeatmasker/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-scaffold-wkdir
-        """
-
-rule repeatmasker_pol_i:
-    input:
-        asm1="2-polishing/{techs}/{asm}/{asm}-{sround}-1.fa",
-        asm2="2-polishing/{techs}/{asm}/{asm}-{sround}-2.fa",
-        asm3="2-polishing/{techs}/{asm}/{asm}-{sround}-3.fa"
-    output:
-        table1="3-metrics/repeatmasker/{techs}/{asm}/{asm}-{sround}-1.tbl",
-        table2="3-metrics/repeatmasker/{techs}/{asm}/{asm}-{sround}-2.tbl",
-        table3="3-metrics/repeatmasker/{techs}/{asm}/{asm}-{sround}-3.tbl"
-    log:
-        "logs/{techs}/repeatmasker/{asm}/{asm}-{sround}-repeatmasker.log"
-    benchmark:
-        "benchmarks/{techs}/repeatmasker/{asm}/{asm}-{sround}-repeatmasker-benchmark.txt"
-    threads: 20
-    shell:
-        """
-        module load repeatmasker/4.1.0
-        mkdir -p 3-metrics/repeatmasker/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.sround}-wkdir/{{dir-01,dir-02,dir-03}}
-
-        cd 3-metrics/repeatmasker/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.sround}-wkdir/dir-01/
-        RepeatMasker \
-            -species {config[rm-species]} \
-            -parallel {threads} -q \
-            -dir ./ ../../../../../../{input.asm1};
-        cp {wildcards.asm}-{wildcards.sround}-1.fa.tbl ../../../../../../{output.table1}
-
-        cd ../dir-02/
-        RepeatMasker \
-            -species {config[rm-species]} \
-            -parallel {threads} -q \
-            -dir ./ ../../../../../../{input.asm2};
-        cp {wildcards.asm}-{wildcards.sround}-2.fa.tbl ../../../../../../{output.table2}
-
-        cd ../dir-03/
-        RepeatMasker \
-            -species {config[rm-species]} \
-            -parallel {threads} -q \
-            -dir ./ ../../../../../../{input.asm3};
-        cp {wildcards.asm}-{wildcards.sround}-3.fa.tbl ../../../../../../{output.table3}
-
-        cd ../../../../../..
-        rm -rf 3-metrics/repeatmasker/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.sround}-wkdir
-        """
-
-rule repeatmasker_pol_j:
-    input:
-        asm1="2-polishing/{techs}/{asm}/{asm}-{lround}-1.fa",
-        asm2="2-polishing/{techs}/{asm}/{asm}-{lround}-2.fa",
-        asm3="2-polishing/{techs}/{asm}/{asm}-{lround}-3.fa",
-        asm4="2-polishing/{techs}/{asm}/{asm}-{lround}-4.fa",
-    output:
-        table1="3-metrics/repeatmasker/{techs}/{asm}/{asm}-{lround}-1.tbl",
-        table2="3-metrics/repeatmasker/{techs}/{asm}/{asm}-{lround}-2.tbl",
-        table3="3-metrics/repeatmasker/{techs}/{asm}/{asm}-{lround}-3.tbl",
-        table4="3-metrics/repeatmasker/{techs}/{asm}/{asm}-{lround}-4.tbl"
-    log:
-        "logs/{techs}/repeatmasker/{asm}/{asm}-{lround}-repeatmasker.log"
-    benchmark:
-        "benchmarks/{techs}/repeatmasker/{asm}/{asm}-{lround}-repeatmasker-benchmark.txt"
-    threads: 20
-    shell:
-        """
-        module load repeatmasker/4.1.0
-        mkdir -p 3-metrics/repeatmasker/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.lround}-wkdir/{{dir-01,dir-02,dir-03,dir-04}}
-
-        cd 3-metrics/repeatmasker/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.lround}-wkdir/dir-01/
-        RepeatMasker \
-            -species {config[rm-species]} \
-            -parallel {threads} -q \
-            -dir ./ ../../../../../../{input.asm1}
-        cp {wildcards.asm}-{wildcards.lround}-1.fa.tbl ../../../../../../{output.table1}
-
-        cd ../dir-02/
-        RepeatMasker \
-            -species {config[rm-species]} \
-            -parallel {threads} -q \
-            -dir ./ ../../../../../../{input.asm2};
-        cp {wildcards.asm}-{wildcards.lround}-2.fa.tbl ../../../../../../{output.table2}
-
-        cd ../dir-03/
-        RepeatMasker \
-            -species {config[rm-species]} \
-            -parallel {threads} -q \
-            -dir ./ ../../../../../../{input.asm3}
-        cp {wildcards.asm}-{wildcards.lround}-3.fa.tbl ../../../../../../{output.table3}
-
-        cd ../dir-04/
-        RepeatMasker \
-            -species {config[rm-species]} \
-            -parallel {threads} -q \
-            -dir ./ ../../../../../../{input.asm4}
-        cp {wildcards.asm}-{wildcards.lround}-4.fa.tbl ../../../../../../{output.table4}
-
-        cd ../../../../../..
-        rm -rf 3-metrics/repeatmasker/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}-{wildcards.lround}-wkdir
-        """
-
 #########
 # Busco #
 #########
@@ -1135,14 +899,18 @@ rule busco:
         "logs/{techs}/busco/{asm}/{asm}-{tag}-busco.log"
     benchmark:
         "benchmarks/{techs}/busco/{asm}/{asm}-{tag}-busco-benchmark.txt"
-    threads: 4
+    threads: 20
     shell:
         """
+        # module load busco/5.0.0
         mkdir -p 3-metrics/busco/{wildcards.techs}/{wildcards.asm} && cd 3-metrics/busco/{wildcards.techs}/{wildcards.asm}
-        export BUSCO_CONFIG_FILE="/datasets/work/hb-eval-genome/work/benchmarking/busco/config/config-basic.ini"
-        export AUGUSTUS_CONFIG_PATH="/datasets/work/hb-eval-genome/work/benchmarking/augustus/config/"
 
-        busco -i ../../../../{input.asm} -o {wildcards.asm}-{wildcards.tag} -l /datasets/work/hb-eval-genome/work/benchmarking/busco/lineages/{config[odb-set]}/ -m geno -c {threads}
+        ########## this needs changing to the augustus config directory of the install/container, i.e. "/PATH/TO/augustus/config/"
+        export AUGUSTUS_CONFIG_PATH="/usr/local/config"
+
+        busco -i ../../../../{input.asm} -o run_{wildcards.asm}-{wildcards.tag} -l ../../../../config/lineages/{config[odb-set]}/ -m geno -c {threads} --augustus -f --offline --config ../../../../config/busco-config.ini
+
+        mv run_{wildcards.asm}-{wildcards.tag}/short_summary.*.txt run_{wildcards.asm}-{wildcards.tag}/short_summary_{wildcards.asm}-{wildcards.tag}.txt
 
         rm -rf run_{wildcards.asm}-{wildcards.tag}/augustus_output/ run_{wildcards.asm}-{wildcards.tag}/blast_output/ run_{wildcards.asm}-{wildcards.tag}/hmmer_output/ 
         cd ../../../..
@@ -1160,14 +928,18 @@ rule busco_ref:
     threads: 4
     shell:
         """
+        # module load busco/5.0.0
         mkdir -p 3-metrics/busco/ref && cd 3-metrics/busco/ref
-        export BUSCO_CONFIG_FILE="/datasets/work/hb-eval-genome/work/benchmarking/busco/config/config-basic.ini"
-        export AUGUSTUS_CONFIG_PATH="/datasets/work/hb-eval-genome/work/benchmarking/augustus/config/"
 
-        busco -i ../../../{input.ref} -o ref -l /datasets/work/hb-eval-genome/work/benchmarking/busco/lineages/{config[odb-set]}/ -m geno -c {threads}
+        ########## this needs changing to the augustus config directory of the install/container, i.e. "/PATH/TO/augustus/config/"
+        export AUGUSTUS_CONFIG_PATH="/usr/local/config"
+
+        busco -i ../../../{input.ref} -o run_ref -l ../../../config/lineages/{config[odb-set]}/ -m geno -c {threads} --augustus -f --offline --config ../../../config/busco-config.ini
+
+        mv run_ref/short_summary.*.txt run_ref/short_summary_ref.txt
 
         rm -rf run_ref/augustus_output/ run_ref/blast_output/ run_ref/hmmer_output/ 
-        cd ../../../..
+        cd ../../..
         """
 
 #######

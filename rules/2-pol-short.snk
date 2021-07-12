@@ -210,7 +210,7 @@ rule short_pilon:
                 samtools index out1.bam'
         /usr/bin/time \
             -o ../../../../{output.p1} \
-            -v java -Xmx{config[mem]}G -jar pilon.jar --genome asm.fa --frags out1.bam --output short-pilon-1 --fix all --threads {threads}
+            -v java -Xmx{config[mem]}G -jar /usr/local/pilon.jar --genome asm.fa --frags out1.bam --output short-pilon-1 --fix all --threads {threads}
         cp short-pilon-1.fasta ../../../../{output.out1}
 
         /usr/bin/time \
@@ -221,7 +221,7 @@ rule short_pilon:
                 samtools index out2.bam'
         /usr/bin/time \
             -o ../../../../{output.p2} \
-            -v java -Xmx{config[mem]}G -jar pilon.jar --genome short-pilon-1.fasta --frags out2.bam --output short-pilon-2 --fix all --threads {threads}
+            -v java -Xmx{config[mem]}G -jar /usr/local/pilon.jar --genome short-pilon-1.fasta --frags out2.bam --output short-pilon-2 --fix all --threads {threads}
         cp short-pilon-2.fasta ../../../../{output.out2}
 
         /usr/bin/time \
@@ -232,7 +232,7 @@ rule short_pilon:
                 samtools index out3.bam'
         /usr/bin/time \
             -o ../../../../{output.p3} \
-            -v java -Xmx{config[mem]}G -jar pilon.jar --genome short-pilon-2.fasta --frags out3.bam --output short-pilon-3 --fix all --threads {threads}
+            -v java -Xmx{config[mem]}G -jar /usr/local/pilon.jar --genome short-pilon-2.fasta --frags out3.bam --output short-pilon-3 --fix all --threads {threads}
         cp short-pilon-3.fasta ../../../../{output.out3}
 
         cd .. && rm -rf {wildcards.asm}{wildcards.longpol}-short-pilon-wkdir && cd ../../..

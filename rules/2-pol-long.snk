@@ -946,7 +946,7 @@ rule hyb_hypo_hyb:
         /usr/bin/time \
             -o ../../../../{output.ml3} \
             -v /bin/bash -c \
-                'minimap2 --secondary=no --MD -ax map-ont -t {threads} out2.bam combined.fastq.gz | samtools view -Sb - | samtools sort -o out-h3.bam -@ {threads} -; \
+                'minimap2 --secondary=no --MD -ax map-ont -t {threads} out2.fa combined.fastq.gz | samtools view -Sb - | samtools sort -o out-h3.bam -@ {threads} -; \
                 samtools index out-h3.bam'
         /usr/bin/time \
             -o ../../../../{output.h3} \
