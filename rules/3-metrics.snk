@@ -77,8 +77,8 @@ rule quast_ill_asm:
         """
         mkdir -p 3-metrics/quast/ILL/ill-asm-comparison 
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/ILL/ill-asm-comparison \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/ILL/ill-asm-comparison \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -107,8 +107,8 @@ rule quast_nano_asm:
         """
         mkdir -p 3-metrics/quast/NANO/nano-asm-comparison
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/NANO/nano-asm-comparison \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/NANO/nano-asm-comparison \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -137,8 +137,8 @@ rule quast_pacbio_asm:
         """
         mkdir -p 3-metrics/quast/PACBIO/pacbio-asm-comparison
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/PACBIO/pacbio-asm-comparison \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/PACBIO/pacbio-asm-comparison \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -169,8 +169,8 @@ rule quast_nano_hyb_asm:
         """
         mkdir -p 3-metrics/quast/HYB/nano-hyb-asm-comparison
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/nano-hyb-asm-comparison \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/nano-hyb-asm-comparison \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -199,8 +199,8 @@ rule quast_pacbio_hyb_asm:
         """
         mkdir -p 3-metrics/quast/HYB/pacbio-hyb-asm-comparison
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/pacbio-hyb-asm-comparison \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/pacbio-hyb-asm-comparison \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -230,8 +230,8 @@ rule quast_hyb_hyb_asm:
         """
         mkdir -p 3-metrics/quast/HYB/hyb-hyb-asm-comparison
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/hyb-hyb-asm-comparison \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/hyb-hyb-asm-comparison \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -263,8 +263,8 @@ rule quast_ill_short:
         """
         mkdir -p 3-metrics/quast/ILL/{wildcards.asm}/{wildcards.asm}-scaffold-short
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/ILL/{wildcards.asm}/{wildcards.asm}-scaffold-short \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/ILL/{wildcards.asm}/{wildcards.asm}-scaffold-short \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -295,8 +295,8 @@ rule quast_nano_short:
         """
         mkdir -p 3-metrics/quast/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-short
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-short \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-short \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -323,8 +323,8 @@ rule quast_nano_long:
         """
         mkdir -p 3-metrics/quast/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -353,8 +353,8 @@ rule quast_nano_long_short:
         """
         mkdir -p 3-metrics/quast/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -383,8 +383,8 @@ rule quast_nano_hyb:
         """
         mkdir -p 3-metrics/quast/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -415,8 +415,8 @@ rule quast_pacbio_short:
         """
         mkdir -p 3-metrics/quast/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-short
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-short \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-short \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -443,8 +443,8 @@ rule quast_pacbio_long:
         """
         mkdir -p 3-metrics/quast/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -473,8 +473,8 @@ rule quast_pacbio_long_short:
         """
         mkdir -p 3-metrics/quast/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -503,8 +503,8 @@ rule quast_pacbio_hyb:
         """
         mkdir -p 3-metrics/quast/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -537,8 +537,8 @@ rule quast_nano_hyb_short:
         """
         mkdir -p 3-metrics/quast/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-short
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-short \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-short \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -567,8 +567,8 @@ rule quast_nano_hyb_long:
         """
         mkdir -p 3-metrics/quast/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -597,8 +597,8 @@ rule quast_nano_hyb_long_short:
         """
         mkdir -p 3-metrics/quast/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long-short
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long-short \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long-short \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -627,8 +627,8 @@ rule quast_nano_hyb_hyb:
         """
         mkdir -p 3-metrics/quast/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-hyb
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-hyb \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-hyb \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -660,8 +660,8 @@ rule quast_pacbio_hyb_short:
         """
         mkdir -p 3-metrics/quast/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-short
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-short \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-short \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -690,8 +690,8 @@ rule quast_pacbio_hyb_long:
         """
         mkdir -p 3-metrics/quast/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -720,8 +720,8 @@ rule quast_pacbio_hyb_long_short:
         """
         mkdir -p 3-metrics/quast/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long-short
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long-short \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long-short \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -750,8 +750,8 @@ rule quast_pacbio_hyb_hyb:
         """
         mkdir -p 3-metrics/quast/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-hyb
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-hyb \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-hyb \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -783,8 +783,8 @@ rule quast_hyb_short:
         """
         mkdir -p 3-metrics/quast/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-short
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-short \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-short \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -814,8 +814,8 @@ rule quast_hyb_long:
         """
         mkdir -p 3-metrics/quast/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -845,8 +845,8 @@ rule quast_hyb_long_short:
         """
         mkdir -p 3-metrics/quast/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long-short
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long-short \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long-short \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -876,8 +876,8 @@ rule quast_hyb_hyb:
         """
         mkdir -p 3-metrics/quast/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-hyb
 
-        python ../../benchmarking/quast-5.0.2/quast.py \
-            -o 3-metrics/quast/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-hyb \
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
+        quast.py -o 3-metrics/quast/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-hyb \
             -r {input.ref} \
             -t {threads}  \
             -m 200 --extensive-mis-size 7000 --min-contig 3000 --min-alignment 500 \
@@ -902,7 +902,6 @@ rule busco:
     threads: 20
     shell:
         """
-        # module load busco/5.0.0
         mkdir -p 3-metrics/busco/{wildcards.techs}/{wildcards.asm} && cd 3-metrics/busco/{wildcards.techs}/{wildcards.asm}
 
         ########## this needs changing to the augustus config directory of the install/container, i.e. "/PATH/TO/augustus/config/"
@@ -929,7 +928,6 @@ rule busco_ref:
     threads: 4
     shell:
         """
-        # module load busco/5.0.0
         mkdir -p 3-metrics/busco/ref && cd 3-metrics/busco/ref
 
         ########## this needs changing to the augustus config directory of the install/container, i.e. "/PATH/TO/augustus/config/"
@@ -1080,10 +1078,6 @@ rule buscomp_nano_hyb_asm:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/nano-hyb-asm-comparison/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/nano-hyb-asm-comparison/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/nano-hyb-asm-comparison/fasta
@@ -1091,7 +1085,7 @@ rule buscomp_nano_hyb_asm:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../busco/HYB/*/run_*-scaffold,../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile=nano-hyb-asm-comparison\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/nano-hyb-asm-comparison/input.ini
         cd 3-metrics/buscomp/HYB/nano-hyb-asm-comparison
 
-        python ../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../..
@@ -1113,10 +1107,6 @@ rule buscomp_pacbio_hyb_asm:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/pacbio-hyb-asm-comparison/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/pacbio-hyb-asm-comparison/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/pacbio-hyb-asm-comparison/fasta
@@ -1124,7 +1114,7 @@ rule buscomp_pacbio_hyb_asm:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../busco/HYB/*/run_*-scaffold,../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile=pacbio-hyb-asm-comparison\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/pacbio-hyb-asm-comparison/input.ini
         cd 3-metrics/buscomp/HYB/pacbio-hyb-asm-comparison
 
-        python ../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../..
@@ -1146,10 +1136,6 @@ rule buscomp_hyb_hyb_asm:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/hyb-hyb-asm-comparison/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/hyb-hyb-asm-comparison/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/hyb-hyb-asm-comparison/fasta
@@ -1157,7 +1143,7 @@ rule buscomp_hyb_hyb_asm:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../busco/HYB/*/run_*-scaffold,../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile=hyb-hyb-asm-comparison\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/hyb-hyb-asm-comparison/input.ini
         cd 3-metrics/buscomp/HYB/hyb-hyb-asm-comparison
 
-        python ../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../..
@@ -1181,10 +1167,6 @@ rule buscomp_ill_short:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/ILL/{wildcards.asm}/{wildcards.asm}-scaffold-short/fasta
         cp {input.asms} 3-metrics/buscomp/ILL/{wildcards.asm}/{wildcards.asm}-scaffold-short/fasta
         cp {input.ref} 3-metrics/buscomp/ILL/{wildcards.asm}/{wildcards.asm}-scaffold-short/fasta
@@ -1192,7 +1174,7 @@ rule buscomp_ill_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/ILL/{wildcards.asm}/run_*-scaffold-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/ILL/{wildcards.asm}/{wildcards.asm}-scaffold-short/input.ini
         cd 3-metrics/buscomp/ILL/{wildcards.asm}/{wildcards.asm}-scaffold-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1216,10 +1198,6 @@ rule buscomp_nano_short:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-short/fasta
         cp {input.asms} 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-short/fasta
         cp {input.ref} 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-short/fasta
@@ -1227,7 +1205,7 @@ rule buscomp_nano_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/NANO/{wildcards.asm}/run_*-scaffold-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-short/input.ini
         cd 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1248,10 +1226,6 @@ rule buscomp_nano_long:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long/fasta
         cp {input.asms} 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long/fasta
         cp {input.ref} 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long/fasta
@@ -1259,7 +1233,7 @@ rule buscomp_nano_long:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/NANO/{wildcards.asm}/run_*-scaffold-long-*-nano-[1234],../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-long\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long/input.ini
         cd 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1280,10 +1254,6 @@ rule buscomp_nano_long_short:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short/fasta
         cp {input.asms} 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short/fasta
         cp {input.ref} 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short/fasta
@@ -1291,7 +1261,7 @@ rule buscomp_nano_long_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/NANO/{wildcards.asm}/run_*-scaffold-long-*-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-long-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short/input.ini
         cd 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1312,10 +1282,6 @@ rule buscomp_nano_hyb:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb/fasta
         cp {input.asms} 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb/fasta
         cp {input.ref} 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb/fasta
@@ -1323,7 +1289,7 @@ rule buscomp_nano_hyb:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/NANO/{wildcards.asm}/run_*-scaffold-hyb-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-hyb\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb/input.ini
         cd 3-metrics/buscomp/NANO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1347,10 +1313,6 @@ rule buscomp_pacbio_short:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-short/fasta
         cp {input.asms} 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-short/fasta
         cp {input.ref} 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-short/fasta
@@ -1358,7 +1320,7 @@ rule buscomp_pacbio_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/PACBIO/{wildcards.asm}/run_*-scaffold-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-short/input.ini
         cd 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1379,10 +1341,6 @@ rule buscomp_pacbio_long:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long/fasta
         cp {input.asms} 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long/fasta
         cp {input.ref} 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long/fasta
@@ -1390,7 +1348,7 @@ rule buscomp_pacbio_long:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/PACBIO/{wildcards.asm}/run_*-scaffold-long-*-pacbio-[1234],../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-long\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long/input.ini
         cd 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1411,10 +1369,6 @@ rule buscomp_pacbio_long_short:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short/fasta
         cp {input.asms} 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short/fasta
         cp {input.ref} 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short/fasta
@@ -1422,7 +1376,7 @@ rule buscomp_pacbio_long_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/PACBIO/{wildcards.asm}/run_*-scaffold-long-*-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-long-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short/input.ini
         cd 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-long-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1443,10 +1397,6 @@ rule buscomp_pacbio_hyb:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb/fasta
         cp {input.asms} 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb/fasta
         cp {input.ref} 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb/fasta
@@ -1454,7 +1404,7 @@ rule buscomp_pacbio_hyb:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/PACBIO/{wildcards.asm}/run_*-scaffold-hyb-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.asm}-scaffold-hyb\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb/input.ini
         cd 3-metrics/buscomp/PACBIO/{wildcards.asm}/{wildcards.asm}-scaffold-hyb
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1477,10 +1427,6 @@ rule buscomp_nano_hyb_short:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-short/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-short/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-short/fasta
@@ -1488,7 +1434,7 @@ rule buscomp_nano_hyb_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.nhasm}/run_*-scaffold-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.nhasm}-scaffold-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-short/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1509,10 +1455,6 @@ rule buscomp_nano_hyb_long:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long/fasta
@@ -1520,7 +1462,7 @@ rule buscomp_nano_hyb_long:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.nhasm}/run_*-scaffold-long-*-nano-[1234],../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.nhasm}-scaffold-long\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1541,10 +1483,6 @@ rule buscomp_nano_hyb_long_short:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long-short/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long-short/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long-short/fasta
@@ -1552,7 +1490,7 @@ rule buscomp_nano_hyb_long_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.nhasm}/run_*-scaffold-long-*-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.nhasm}-scaffold-long-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long-short/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-long-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1573,10 +1511,6 @@ rule buscomp_nano_hyb_hyb:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-hyb/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-hyb/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-hyb/fasta
@@ -1584,7 +1518,7 @@ rule buscomp_nano_hyb_hyb:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.nhasm}/run_*-scaffold-hyb-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.nhasm}-scaffold-hyb\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-hyb/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.nhasm}/{wildcards.nhasm}-scaffold-hyb
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1607,10 +1541,6 @@ rule buscomp_pacbio_hyb_short:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-short/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-short/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-short/fasta
@@ -1618,7 +1548,7 @@ rule buscomp_pacbio_hyb_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.phasm}/run_*-scaffold-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.phasm}-scaffold-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-short/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1639,10 +1569,6 @@ rule buscomp_pacbio_hyb_long:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long/fasta
@@ -1650,7 +1576,7 @@ rule buscomp_pacbio_hyb_long:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.phasm}/run_*-scaffold-long-*-pacbio-[1234],../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.phasm}-scaffold-long\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1671,10 +1597,6 @@ rule buscomp_pacbio_hyb_long_short:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long-short/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long-short/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long-short/fasta
@@ -1682,7 +1604,7 @@ rule buscomp_pacbio_hyb_long_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.phasm}/run_*-scaffold-long-*-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.phasm}-scaffold-long-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long-short/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-long-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1703,10 +1625,6 @@ rule buscomp_pacbio_hyb_hyb:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-hyb/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-hyb/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-hyb/fasta
@@ -1714,7 +1632,7 @@ rule buscomp_pacbio_hyb_hyb:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.phasm}/run_*-scaffold-hyb-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.phasm}-scaffold-hyb\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-hyb/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.phasm}/{wildcards.phasm}-scaffold-hyb
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1737,10 +1655,6 @@ rule buscomp_hyb_short:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-short/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-short/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-short/fasta
@@ -1748,7 +1662,7 @@ rule buscomp_hyb_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.hhasm}/run_*-scaffold-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.hhasm}-scaffold-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-short/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1769,10 +1683,6 @@ rule buscomp_hyb_long:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long/fasta
@@ -1780,7 +1690,7 @@ rule buscomp_hyb_long:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.hhasm}/run_*-scaffold-long-*-comb-[1234],../../../../busco/HYB/*/run_*-scaffold-long-*-nano-[1234],../../../../busco/HYB/*/run_*-scaffold-long-*-pacbio-[1234],../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.hhasm}-scaffold-long\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1801,10 +1711,6 @@ rule buscomp_hyb_long_short:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long-short/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long-short/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long-short/fasta
@@ -1812,7 +1718,7 @@ rule buscomp_hyb_long_short:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.hhasm}/run_*-scaffold-long-*-short-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.hhasm}-scaffold-long-short\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long-short/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-long-short
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
@@ -1833,10 +1739,6 @@ rule buscomp_hyb_hyb:
     threads: 20
     shell:
         """
-        module unload miniconda3
-        module load python/2.7.11 pandoc/1.12.3 R/3.6.3 minimap2/2.16 blast+/2.2.31 augustus/3.3.2 hmmer/3.1b2
-        export RSTUDIO_PANDOC=/apps/pandoc/1.12.3/bin/pandoc
-
         mkdir -p 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-hyb/fasta
         cp {input.asms} 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-hyb/fasta
         cp {input.ref} 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-hyb/fasta
@@ -1844,7 +1746,7 @@ rule buscomp_hyb_hyb:
         echo -e 'genomesize={config[genomesize]}\nruns="../../../../busco/HYB/{wildcards.hhasm}/run_*-scaffold-hyb-*,../../../../busco/ref/run_ref"\nfastadir=fasta/\nbasefile={wildcards.hhasm}-scaffold-hyb\nrmdreport=F\nfullreport=F\nforks={threads}' > 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-hyb/input.ini
         cd 3-metrics/buscomp/HYB/{wildcards.hhasm}/{wildcards.hhasm}-scaffold-hyb
 
-        python ../../../../../../../benchmarking/buscomp/code/buscomp.py -ini input.ini i=-1
+        buscomp.py -ini input.ini i=-1
         
         cp *.ratings.tdt buscomp-ratings.tdt
         rm -rf fasta/ && cd ../../../../..
