@@ -26,7 +26,7 @@ genomesize:         100000000
 falconcoverage:     35
 
 # path to gene set for use with BUSCO, relative to main directory (or absolute), if using.
-odb-set:            'nematoda_odb9'
+odb-set:            'nematoda_odb10'
 
 ##############
 ## Hardware ##

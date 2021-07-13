@@ -906,9 +906,10 @@ rule busco:
         mkdir -p 3-metrics/busco/{wildcards.techs}/{wildcards.asm} && cd 3-metrics/busco/{wildcards.techs}/{wildcards.asm}
 
         ########## this needs changing to the augustus config directory of the install/container, i.e. "/PATH/TO/augustus/config/"
-        export AUGUSTUS_CONFIG_PATH="/usr/local/config"
+        export AUGUSTUS_CONFIG_PATH=/scratch1/ben324/eRCP_1035/pyro/config/augustus_config
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
 
-        busco -i ../../../../{input.asm} -o run_{wildcards.asm}-{wildcards.tag} -l ../../../../config/lineages/{config[odb-set]}/ -m geno -c {threads} --augustus -f --offline --config ../../../../config/busco-config.ini
+        busco -i ../../../../{input.asm} -o run_{wildcards.asm}-{wildcards.tag} -l {config[odb-set]} -m geno -c {threads} --augustus -f --offline --config ../../../../config/busco-config.ini
 
         mv run_{wildcards.asm}-{wildcards.tag}/short_summary.*.txt run_{wildcards.asm}-{wildcards.tag}/short_summary_{wildcards.asm}-{wildcards.tag}.txt
 
@@ -932,9 +933,10 @@ rule busco_ref:
         mkdir -p 3-metrics/busco/ref && cd 3-metrics/busco/ref
 
         ########## this needs changing to the augustus config directory of the install/container, i.e. "/PATH/TO/augustus/config/"
-        export AUGUSTUS_CONFIG_PATH="/usr/local/config"
+        export AUGUSTUS_CONFIG_PATH=/scratch1/ben324/eRCP_1035/pyro/config/augustus_config
+        export PYTHONPATH=/usr/local/lib/python3.8/site-packages
 
-        busco -i ../../../{input.ref} -o run_ref -l ../../../config/lineages/{config[odb-set]}/ -m geno -c {threads} --augustus -f --offline --config ../../../config/busco-config.ini
+        busco -i ../../../{input.ref} -o run_ref -l {config[odb-set]} -m geno -c {threads} --augustus -f --offline --config ../../../config/busco-config.ini
 
         mv run_ref/short_summary.*.txt run_ref/short_summary_ref.txt
 
