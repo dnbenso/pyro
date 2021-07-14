@@ -2,10 +2,6 @@
 # METRICS #
 ###########
 
-### Requires data cleaning, assembly and polishing first
-
-localrules: dnaqet_model
-
 
 ###############
 # Genome Size #

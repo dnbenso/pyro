@@ -245,7 +245,7 @@ include: "rules/2-pol-long.snk"   # Polishing (long reads) rules
 include: "rules/3-metrics.snk"    # Metric calculation rules
 include: "rules/4-results.snk"    # Results calculation rules
 
-localrules: combine_ill, unzip_ill, dnaqet_model
+localrules: combine_ill, unzip_ill
 
 #########
 # Rules #
@@ -259,7 +259,6 @@ rule all:
         ".flags/0-data-prep/data-process.success",
         ".flags/1-asm/assemble-all.success",
         ".flags/2-pol/polish-all.success",
-        ".flags/3-met/dnaqet-all.success",
         ".flags/3-met/quast-all.success",
         ".flags/3-met/repeatmasker-all.success"
 
@@ -277,7 +276,6 @@ rule polish:
 
 rule metrics:
     input:
-        ".flags/3-met/dnaqet-all.success",
         ".flags/3-met/quast-all.success",
         ".flags/3-met/repeatmasker-all.success"
 
@@ -297,7 +295,7 @@ rule structure_check:
           1-assembly/{{ILL,NANO,PACBIO,HYB}} \
           2-polishing/{{ILL,NANO,PACBIO,HYB}} \
           benchmarks \
-          3-metrics/{{quast/{{ILL,NANO,PACBIO,HYB}},repeatmasker/{{ILL,NANO,PACBIO,HYB}},dnaqet/{{ILL,NANO,PACBIO,HYB}}}} \
+          3-metrics/{{quast/{{ILL,NANO,PACBIO,HYB}},repeatmasker/{{ILL,NANO,PACBIO,HYB}}}} \
           4-results \
           .flags/{{0-data-prep,1-asm,2-pol,3-met,4-res}} \
           logs/jobs/{{success,fail}} \
@@ -513,128 +511,6 @@ rule polish_hyb_hyb:
 #####################
 # Rules for Metrics #
 #####################
-
-### DNAQET ###
-
-localrules: 
-    dnaqet_check_all, dnaqet_ill_check_all, dnaqet_ill_check_asm, dnaqet_ill_check_pol,
-    dnaqet_nano_check_all, dnaqet_nano_check_asm, dnaqet_nano_check_pol,
-    dnaqet_pacbio_check_all, dnaqet_pacbio_check_asm, dnaqet_pacbio_check_pol,
-    dnaqet_hyb_check_all, dnaqet_hyb_check_asm, dnaqet_nano_hyb_check_pol, dnaqet_pacbio_hyb_check_pol, dnaqet_hyb_hyb_check_pol
-
-rule dnaqet_check_all:
-    input:
-        ".flags/3-met/dnaqet-ill-all.success",
-        ".flags/3-met/dnaqet-nano-all.success",
-        ".flags/3-met/dnaqet-pacbio-all.success",
-        ".flags/3-met/dnaqet-hyb-all.success"
-    output: touch(".flags/3-met/dnaqet-all.success")
-
-## Illumina Assemblies
-
-rule dnaqet_ill_check_all:
-    input:
-        ".flags/3-met/dnaqet-ill-asm.success",
-        ".flags/3-met/dnaqet-ill-pol.success"
-    output: touch(".flags/3-met/dnaqet-ill-all.success")
-
-rule dnaqet_ill_check_asm:
-    input:
-        expand("3-metrics/dnaqet/ILL/{ill}/{ill}-scaffold/reports/assembly.stat", ill = ILL_ASM)
-    output: touch(".flags/3-met/dnaqet-ill-asm.success")
-
-rule dnaqet_ill_check_pol:
-    input:
-        expand("3-metrics/dnaqet/ILL/{ill}/{ill}-scaffold-{pol}-3/reports/assembly.stat", ill = ILL_ASM, pol = ILL_POL)
-    output: touch(".flags/3-met/dnaqet-ill-pol.success")
-
-## Nanopore Assemblies
-
-rule dnaqet_nano_check_all:
-    input:
-        ".flags/3-met/dnaqet-nano-asm.success",
-        ".flags/3-met/dnaqet-nano-pol.success"
-    output: touch(".flags/3-met/dnaqet-nano-all.success")
-
-rule dnaqet_nano_check_asm:
-    input:
-        expand("3-metrics/dnaqet/NANO/{nano}/{nano}-scaffold/reports/assembly.stat", nano = NANO_ASM)
-    output: touch(".flags/3-met/dnaqet-nano-asm.success")
-
-rule dnaqet_nano_check_pol:
-    input:
-        expand("3-metrics/dnaqet/NANO/{nano}/{nano}-scaffold-{spol}-3/reports/assembly.stat", nano = NANO_ASM, spol = ILL_POL),
-        expand("3-metrics/dnaqet/NANO/{nano}/{nano}-scaffold-{lpol}-4/reports/assembly.stat", nano = NANO_ASM, lpol = NANO_POL),
-#        expand("3-metrics/dnaqet/NANO/{nano}/{nano}-scaffold-{spol}-3-{lpol}-4/reports/assembly.stat", nano = NANO_ASM, spol = ILL_POL, lpol = NANO_POL),
-        expand("3-metrics/dnaqet/NANO/{nano}/{nano}-scaffold-{lpol}-4-{spol}-3/reports/assembly.stat", nano = NANO_ASM, lpol = NANO_POL, spol = ILL_POL),
-        expand("3-metrics/dnaqet/NANO/{nano}/{nano}-scaffold-{hpol}-4/reports/assembly.stat", nano = NANO_ASM, hpol = NANO_HYB_POL)
-    output: touch(".flags/3-met/dnaqet-nano-pol.success")
-
-## PacBio Assemblies
-
-rule dnaqet_pacbio_check_all:
-    input:
-        ".flags/3-met/dnaqet-pacbio-asm.success",
-        ".flags/3-met/dnaqet-pacbio-pol.success"
-    output: touch(".flags/3-met/dnaqet-pacbio-all.success")
-
-rule dnaqet_pacbio_check_asm:
-    input:
-        expand("3-metrics/dnaqet/PACBIO/{pacbio}/{pacbio}-scaffold/reports/assembly.stat", pacbio = PACBIO_ASM)
-    output: touch(".flags/3-met/dnaqet-pacbio-asm.success")
-
-rule dnaqet_pacbio_check_pol:
-    input:
-        expand("3-metrics/dnaqet/PACBIO/{pacbio}/{pacbio}-scaffold-{spol}-3/reports/assembly.stat", pacbio = PACBIO_ASM, spol = ILL_POL),
-        expand("3-metrics/dnaqet/PACBIO/{pacbio}/{pacbio}-scaffold-{lpol}-4/reports/assembly.stat", pacbio = PACBIO_ASM, lpol = PACBIO_POL),
-#        expand("3-metrics/dnaqet/PACBIO/{pacbio}/{pacbio}-scaffold-{spol}-3-{lpol}-4/reports/assembly.stat", pacbio = PACBIO_ASM, spol = ILL_POL, lpol = PACBIO_POL),
-        expand("3-metrics/dnaqet/PACBIO/{pacbio}/{pacbio}-scaffold-{lpol}-4-{spol}-3/reports/assembly.stat", pacbio = PACBIO_ASM, lpol = PACBIO_POL, spol = ILL_POL),
-        expand("3-metrics/dnaqet/PACBIO/{pacbio}/{pacbio}-scaffold-{hpol}-4/reports/assembly.stat", pacbio = PACBIO_ASM, hpol = PACBIO_HYB_POL)
-    output: touch(".flags/3-met/dnaqet-pacbio-pol.success")
-
-## Hybrid Assemblies
-
-rule dnaqet_hyb_check_all:
-    input:
-        ".flags/3-met/dnaqet-hyb-asm.success",
-        ".flags/3-met/dnaqet-nano-hyb-pol.success",
-        ".flags/3-met/dnaqet-pacbio-hyb-pol.success",
-        ".flags/3-met/dnaqet-hyb-hyb-pol.success"
-    output: touch(".flags/3-met/dnaqet-hyb-all.success")
-
-rule dnaqet_hyb_check_asm:
-    input:
-        expand("3-metrics/dnaqet/HYB/{nhyb}/{nhyb}-scaffold/reports/assembly.stat", nhyb = NANO_HYB_ASM),
-        expand("3-metrics/dnaqet/HYB/{phyb}/{phyb}-scaffold/reports/assembly.stat", phyb = PACBIO_HYB_ASM),
-        expand("3-metrics/dnaqet/HYB/{hhyb}/{hhyb}-scaffold/reports/assembly.stat", hhyb = HYB_ASM)
-    output: touch(".flags/3-met/dnaqet-hyb-asm.success")
-
-rule dnaqet_nano_hyb_check_pol:
-    input:
-        expand("3-metrics/dnaqet/HYB/{nano}/{nano}-scaffold-{spol}-3/reports/assembly.stat", nano = NANO_HYB_ASM, spol = ILL_POL),
-        expand("3-metrics/dnaqet/HYB/{nano}/{nano}-scaffold-{lpol}-4/reports/assembly.stat", nano = NANO_HYB_ASM, lpol = NANO_POL),
-#        expand("3-metrics/dnaqet/HYB/{nano}/{nano}-scaffold-{spol}-3-{lpol}-4/reports/assembly.stat", nano = NANO_HYB_ASM, spol = ILL_POL, lpol = NANO_POL),
-        expand("3-metrics/dnaqet/HYB/{nano}/{nano}-scaffold-{lpol}-4-{spol}-3/reports/assembly.stat", nano = NANO_HYB_ASM, lpol = NANO_POL, spol = ILL_POL),
-        expand("3-metrics/dnaqet/HYB/{nano}/{nano}-scaffold-{hpol}-4/reports/assembly.stat", nano = NANO_HYB_ASM, hpol = NANO_HYB_POL)
-    output: touch(".flags/3-met/dnaqet-nano-hyb-pol.success")
-
-rule dnaqet_pacbio_hyb_check_pol:
-    input:
-        expand("3-metrics/dnaqet/HYB/{pacbio}/{pacbio}-scaffold-{spol}-3/reports/assembly.stat", pacbio = PACBIO_HYB_ASM, spol = ILL_POL),
-        expand("3-metrics/dnaqet/HYB/{pacbio}/{pacbio}-scaffold-{lpol}-4/reports/assembly.stat", pacbio = PACBIO_HYB_ASM, lpol = PACBIO_POL),
-#        expand("3-metrics/dnaqet/HYB/{pacbio}/{pacbio}-scaffold-{spol}-3-{lpol}-4/reports/assembly.stat", pacbio = PACBIO_HYB_ASM, spol = ILL_POL, lpol = PACBIO_POL),
-        expand("3-metrics/dnaqet/HYB/{pacbio}/{pacbio}-scaffold-{lpol}-4-{spol}-3/reports/assembly.stat", pacbio = PACBIO_HYB_ASM, lpol = PACBIO_POL, spol = ILL_POL),
-        expand("3-metrics/dnaqet/HYB/{pacbio}/{pacbio}-scaffold-{hpol}-4/reports/assembly.stat", pacbio = PACBIO_HYB_ASM, hpol = PACBIO_HYB_POL)
-    output: touch(".flags/3-met/dnaqet-pacbio-hyb-pol.success")
-
-rule dnaqet_hyb_hyb_check_pol:
-    input:
-        expand("3-metrics/dnaqet/HYB/{hyb}/{hyb}-scaffold-{spol}-3/reports/assembly.stat", hyb = HYB_ASM, spol = ILL_POL),
-        expand("3-metrics/dnaqet/HYB/{hyb}/{hyb}-scaffold-{lpol}-4/reports/assembly.stat", hyb = HYB_ASM, lpol = LONG_HYB_POL),
-#        expand("3-metrics/dnaqet/HYB/{hyb}/{hyb}-scaffold-{spol}-3-{lpol}-4/reports/assembly.stat", hyb = HYB_ASM, spol = ILL_POL, lpol = LONG_HYB_POL),
-        expand("3-metrics/dnaqet/HYB/{hyb}/{hyb}-scaffold-{lpol}-4-{spol}-3/reports/assembly.stat", hyb = HYB_ASM, lpol = LONG_HYB_POL, spol = ILL_POL),
-        expand("3-metrics/dnaqet/HYB/{hyb}/{hyb}-scaffold-{hpol}-4/reports/assembly.stat", hyb = HYB_ASM, hpol = HYB_HYB_POL)
-    output: touch(".flags/3-met/dnaqet-hyb-hyb-pol.success")
 
 ### QUAST ###
 
