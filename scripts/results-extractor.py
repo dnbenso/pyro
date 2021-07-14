@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys, getopt, os, glob, fnmatch, subprocess, errno, csv
 import pandas as pd
 import numpy as np
