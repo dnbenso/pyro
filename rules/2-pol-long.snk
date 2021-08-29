@@ -208,6 +208,8 @@ rule long_medrac_nano:
         cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-nano-wkdir/asm.fa
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-nano-wkdir
 
+        conda activate medaka
+
         /usr/bin/time \
             -o ../../../../{output.m1} \
             -v medaka_consensus -i ../../../../{input.nano} -d asm.fa -o run01-dir -t {threads}
@@ -504,6 +506,8 @@ rule long_medrac_comb:
         mkdir -p 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-comb-wkdir
         cp {input.asm} 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-comb-wkdir/asm.fa
         cd 2-polishing/{wildcards.techs}/{wildcards.asm}/{wildcards.asm}{wildcards.shortpol}-long-medrac-comb-wkdir
+
+        conda activate medaka
 
         /usr/bin/time \
             -o ../../../../{output.m1} \
