@@ -15,7 +15,7 @@ rule fastqc:
     output:
         "reads/{reads}/{readtype}_fastqc.html",
         temp("reads/{reads}/{readtype}_fastqc.zip")
-    threads: 2
+    threads: 8
     shell:
         "fastqc -t {threads} {input.i1}"
 
@@ -68,7 +68,7 @@ rule combine_ill:
         comb="reads/ILL/ill_combined.fastq.gz"
     log:
         "logs/trim/ILL/ill-combine.log"
-    threads: 4
+    threads: 8
     shell:
         """
         zcat {input.i1} {input.i2} | seqtk rename - @seq | pigz -f > {output.comb}
@@ -82,7 +82,7 @@ rule unzip_ill:
     output:
         in1="reads/ILL/ill_1.fastq",
         in2="reads/ILL/ill_2.fastq"
-    threads: 4
+    threads: 8
     shell:
         """
         unpigz -k -c {input.i1} > {output.in1}
@@ -118,7 +118,7 @@ rule fix_ill:
     output:
         out1="reads/ILL/ill_quast_1.fastq.gz",
         out2="reads/ILL/ill_quast_2.fastq.gz"
-    threads: 4
+    threads: 8
     shell:
         """
         zcat {input.i1} | sed '/^@SRR/ s/ .*/ /g' | sed '/^@SRR/ s/ /\/1/g' | pigz -p {threads} > {output.out1}
@@ -137,7 +137,7 @@ rule ratatosk_nano:
         """
         mkdir -p reads/NANO/ratatosk && cd reads/NANO/ratatosk
 
-        Ratatosk -s ../../../{input.ill} -l ../../../{input.nano} -o nano-ratatosk -c 20
+        Ratatosk correct -s ../../../{input.ill} -l ../../../{input.nano} -o nano-ratatosk -c {threads}
 
         mv nano-ratatosk.fasta ../nano-corrected.fasta
         cd .. && rm -rf ratatosk && cd ../..
